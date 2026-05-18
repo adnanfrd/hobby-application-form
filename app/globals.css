@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --navy: #0D1B2A;
+  --midnight: #080E1A;
+  --gold: #C8952A;
+  --gold-lt: #E8B84B;
+  --cream: #F4F1EC;
+  --white: #FFFFFF;
+  --muted: #7A8BAA;
+  --card: #111F33;
+  --border-gold: rgba(200,149,42,0.18);
+  --border-w: rgba(255,255,255,0.07);
+  --green: #00C864;
+  --red: #FF4C4C;
+  --error: #C0392B;
+  
+  --background: var(--midnight);
+  --foreground: var(--white);
+  --card-bg: var(--card);
+  --card-foreground: var(--white);
+  --popover: var(--card);
+  --popover-foreground: var(--white);
+  --primary: var(--gold);
+  --primary-foreground: var(--midnight);
+  --secondary: var(--navy);
+  --secondary-foreground: var(--cream);
+  --muted-bg: var(--navy);
+  --muted-foreground: var(--muted);
+  --accent: var(--gold);
+  --accent-foreground: var(--midnight);
+  --destructive: var(--red);
+  --destructive-foreground: var(--white);
+  --border: var(--border-w);
+  --input: var(--border-w);
+  --ring: var(--gold);
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --font-sans: 'Inter', 'Inter Fallback', sans-serif;
+  --font-serif: 'Playfair Display', 'Playfair Display Fallback', serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card-bg);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted-bg);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  --color-navy: var(--navy);
+  --color-midnight: var(--midnight);
+  --color-gold: var(--gold);
+  --color-gold-lt: var(--gold-lt);
+  --color-cream: var(--cream);
+  --color-muted-text: var(--muted);
+  --color-card-dark: var(--card);
+  --color-border-gold: var(--border-gold);
+  --color-border-white: var(--border-w);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --color-error: var(--error);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
