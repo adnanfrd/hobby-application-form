@@ -1,6 +1,6 @@
 'use client'
 
-import { FaCheck, FaX } from 'react-icons/fa6'
+import { FaCircleCheck, FaXmark } from 'react-icons/fa6'
 
 const yesItems = [
   "5+ years in a corporate or professional role (FAANG, finance, consulting, law)",
@@ -43,7 +43,7 @@ export function ICPSection() {
                 key={index}
                 className="text-sm text-cream pl-[26px] relative leading-[1.5] before:absolute before:left-0 before:text-green before:font-bold"
               >
-                <FaCheck className="absolute left-0 top-0.5 text-green" size={16} />
+                <FaCircleCheck className="absolute left-0 top-0.5 text-green" size={16} />
                 {item}
               </li>
             ))}
@@ -60,7 +60,7 @@ export function ICPSection() {
                 key={index}
                 className="text-sm text-cream pl-[26px] relative leading-[1.5] before:absolute before:left-0 before:text-red before:font-bold"
               >
-                <FaX className="absolute left-0 top-0.5 text-red" size={16} />
+                <FaXmark className="absolute left-0 top-0.5 text-red" size={16} />
                 {item}
               </li>
             ))}

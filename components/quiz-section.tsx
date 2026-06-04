@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { FaCheck, FaZap, FaMapPin, FaCalendar } from "react-icons/fa6"
+import { FaCircleCheck, FaBolt, FaMapPin, FaClock } from "react-icons/fa6"
 
 interface QuizAnswer {
   step: number
@@ -83,10 +83,10 @@ function getResults(score: number, name: string, email: string) {
       title: "You're closer than you think.",
       desc: `${name}, your score of ${score}/100 puts you in the top tier of idea readiness. The foundations are there. What you need now is a systematic framework to test it — not more preparation.`,
       insights: [
-        { icon: FaCheck, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
-        { icon: FaCheck, text: "You have the time and commitment to run a full 90-day validation sprint." },
+        { icon: FaCircleCheck, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
+        { icon: FaCircleCheck, text: "You have the time and commitment to run a full 90-day validation sprint." },
         {
-          icon: FaZap,
+          icon: FaBolt,
           text: "Your next step: Stop refining the idea and start Stage 2 — 10 customer conversations in 2 weeks.",
         },
       ],
@@ -100,9 +100,9 @@ function getResults(score: number, name: string, email: string) {
       desc: `${name}, your score of ${score}/100 means you're in solid territory — but there are specific gaps between you and a successful 90-day test. The good news: every one of them is fixable.`,
       insights: [
         { icon: FaMapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
-        { icon: FaCalendar, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
+        { icon: FaClock, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
         {
-          icon: FaCheck,
+          icon: FaCircleCheck,
           text: "Your next step: Join the free 75-min workshop — From Buried Idea to First Customer. Link in your inbox.",
         },
       ],
@@ -115,10 +115,10 @@ function getResults(score: number, name: string, email: string) {
       title: "The foundation needs work — that's exactly what we're here for.",
       desc: `${name}, your score of ${score}/100 tells us the idea hasn't been articulated clearly enough to test yet. That's not a problem — it's Stage 1 of the Hobby Method. Most people start here.`,
       insights: [
-        { icon: FaCalendar, text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
+        { icon: FaClock, text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
         { icon: FaMapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
         {
-          icon: FaCalendar,
+          icon: FaClock,
           text: "Your next step: complete the framework, then re-take this quiz in 2 weeks. You'll score higher.",
         },
       ],
