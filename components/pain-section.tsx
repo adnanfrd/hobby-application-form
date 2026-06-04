@@ -1,6 +1,6 @@
 'use client'
 
-import { FaClock, FaTarget, FaLock, FaChartColumn } from 'react-icons/fa6'
+import { FaClock, FaBullseye, FaLock, FaChartBar } from 'react-icons/fa6'
 
 const painPoints = [
   {
@@ -11,7 +11,7 @@ const painPoints = [
     highlight: true,
   },
   {
-    icon: FaTarget,
+    icon: FaBullseye,
     title: "No system, just pressure",
     description:
       "You know how to build at scale. But no one ever gave you the framework for applying your skills to your own idea — without blowing up your career to do it.",
@@ -23,7 +23,7 @@ const painPoints = [
       'You can\'t afford to fail publicly. The people who respect your professional track record — they\'ll see it. So you wait until it\'s "ready." It never is.',
   },
   {
-    icon: FaChartColumn,
+    icon: FaChartBar,
     title: '"I don\'t know if it\'s good enough"',
     description:
       "That's not a feeling problem. It's a data problem. You haven't had a structured way to test it without betting the whole thing on one launch.",
