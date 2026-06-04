@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Check, Zap, FaMapPin, FaCalendar } from "react-icons/fa6"
+import { FaCheck, FaZap, FaMapPin, FaCalendar } from "react-icons/fa6"
 
 interface QuizAnswer {
   step: number
@@ -83,10 +83,10 @@ function getResults(score: number, name: string, email: string) {
       title: "You're closer than you think.",
       desc: `${name}, your score of ${score}/100 puts you in the top tier of idea readiness. The foundations are there. What you need now is a systematic framework to test it — not more preparation.`,
       insights: [
-        { icon: Check, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
-        { icon: Check, text: "You have the time and commitment to run a full 90-day validation sprint." },
+        { icon: FaCheck, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
+        { icon: FaCheck, text: "You have the time and commitment to run a full 90-day validation sprint." },
         {
-          icon: Zap,
+          icon: FaZap,
           text: "Your next step: Stop refining the idea and start Stage 2 — 10 customer conversations in 2 weeks.",
         },
       ],
@@ -102,7 +102,7 @@ function getResults(score: number, name: string, email: string) {
         { icon: FaMapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
         { icon: FaCalendar, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
         {
-          icon: Check,
+          icon: FaCheck,
           text: "Your next step: Join the free 75-min workshop — From Buried Idea to First Customer. Link in your inbox.",
         },
       ],
