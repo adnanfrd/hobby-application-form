@@ -1,25 +1,29 @@
+'use client'
+
+import { Clock, Target, Lock, BarChart3 } from 'react-icons/fa6'
+
 const painPoints = [
   {
-    icon: "⏳",
+    icon: Clock,
     title: 'The "one day" loop',
     description:
       'Year 1: "When things slow down." Year 3: "When I have more saved." Year 5: "Maybe it wasn\'t meant to be." The idea didn\'t die. It got postponed indefinitely.',
     highlight: true,
   },
   {
-    icon: "🎯",
+    icon: Target,
     title: "No system, just pressure",
     description:
       "You know how to build at scale. But no one ever gave you the framework for applying your skills to your own idea — without blowing up your career to do it.",
   },
   {
-    icon: "🔒",
+    icon: Lock,
     title: "Reputation risk paralysis",
     description:
       'You can\'t afford to fail publicly. The people who respect your professional track record — they\'ll see it. So you wait until it\'s "ready." It never is.',
   },
   {
-    icon: "📊",
+    icon: BarChart3,
     title: '"I don\'t know if it\'s good enough"',
     description:
       "That's not a feeling problem. It's a data problem. You haven't had a structured way to test it without betting the whole thing on one launch.",
@@ -42,7 +46,9 @@ export function PainSection() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-14">
-        {painPoints.map((point, index) => (
+        {painPoints.map((point, index) => {
+          const IconComponent = point.icon
+          return (
           <div
             key={index}
             className={`bg-card-dark border rounded-xl p-8 ${
@@ -50,12 +56,13 @@ export function PainSection() {
             }`}
           >
             <div className="w-[42px] h-[42px] bg-gold/10 rounded-[10px] flex items-center justify-center text-lg mb-[18px]">
-              {point.icon}
+              <IconComponent className="text-gold" size={24} />
             </div>
             <h3 className="text-[17px] font-bold text-cream mb-2.5">{point.title}</h3>
             <p className="text-[13px] text-muted-text leading-[1.7]">{point.description}</p>
           </div>
-        ))}
+        )
+        })}
 
         <div className="col-span-1 md:col-span-2 bg-card-dark border-l-[3px] border-l-gold rounded-r-xl p-7 px-9">
           <blockquote className="font-serif text-lg italic text-cream leading-[1.65]">

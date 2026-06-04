@@ -1,3 +1,7 @@
+'use client'
+
+import { Check, X } from 'react-icons/fa6'
+
 const yesItems = [
   "5+ years in a corporate or professional role (FAANG, finance, consulting, law)",
   "Business idea you've been carrying for 12+ months",
@@ -37,8 +41,9 @@ export function ICPSection() {
             {yesItems.map((item, index) => (
               <li
                 key={index}
-                className="text-sm text-cream pl-[26px] relative leading-[1.5] before:content-['✓'] before:absolute before:left-0 before:text-green before:font-bold"
+                className="text-sm text-cream pl-[26px] relative leading-[1.5] before:absolute before:left-0 before:text-green before:font-bold"
               >
+                <Check className="absolute left-0 top-0.5 text-green" size={16} />
                 {item}
               </li>
             ))}
@@ -53,8 +58,9 @@ export function ICPSection() {
             {noItems.map((item, index) => (
               <li
                 key={index}
-                className="text-sm text-cream pl-[26px] relative leading-[1.5] before:content-['✗'] before:absolute before:left-0 before:text-red before:font-bold"
+                className="text-sm text-cream pl-[26px] relative leading-[1.5] before:absolute before:left-0 before:text-red before:font-bold"
               >
+                <X className="absolute left-0 top-0.5 text-red" size={16} />
                 {item}
               </li>
             ))}
