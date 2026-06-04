@@ -1,6 +1,6 @@
 'use client'
 
-import { Clock, Target, Lock, BarChart3 } from 'react-icons/fa6'
+import { Clock, Target, Lock, FaChartColumn } from 'react-icons/fa6'
 
 const painPoints = [
   {
@@ -23,7 +23,7 @@ const painPoints = [
       'You can\'t afford to fail publicly. The people who respect your professional track record — they\'ll see it. So you wait until it\'s "ready." It never is.',
   },
   {
-    icon: BarChart3,
+    icon: FaChartColumn,
     title: '"I don\'t know if it\'s good enough"',
     description:
       "That's not a feeling problem. It's a data problem. You haven't had a structured way to test it without betting the whole thing on one launch.",
