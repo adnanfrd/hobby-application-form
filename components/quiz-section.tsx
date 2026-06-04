@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Check, Zap, MapPin, Calendar } from "react-icons/fa6"
+import { Check, Zap, FaMapPin, FaCalendar } from "react-icons/fa6"
 
 interface QuizAnswer {
   step: number
@@ -99,8 +99,8 @@ function getResults(score: number, name: string, email: string) {
       title: "One or two things to sharpen — then you test.",
       desc: `${name}, your score of ${score}/100 means you're in solid territory — but there are specific gaps between you and a successful 90-day test. The good news: every one of them is fixable.`,
       insights: [
-        { icon: MapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
-        { icon: Calendar, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
+        { icon: FaMapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
+        { icon: FaCalendar, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
         {
           icon: Check,
           text: "Your next step: Join the free 75-min workshop — From Buried Idea to First Customer. Link in your inbox.",
@@ -115,10 +115,10 @@ function getResults(score: number, name: string, email: string) {
       title: "The foundation needs work — that's exactly what we're here for.",
       desc: `${name}, your score of ${score}/100 tells us the idea hasn't been articulated clearly enough to test yet. That's not a problem — it's Stage 1 of the Hobby Method. Most people start here.`,
       insights: [
-        { icon: Calendar, text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
-        { icon: MapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
+        { icon: FaCalendar, text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
+        { icon: FaMapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
         {
-          icon: Calendar,
+          icon: FaCalendar,
           text: "Your next step: complete the framework, then re-take this quiz in 2 weeks. You'll score higher.",
         },
       ],
