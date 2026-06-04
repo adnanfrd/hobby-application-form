@@ -31,6 +31,12 @@ export function Footer() {
         >
           Take the Quiz
         </Link>
+        <Link
+          href="/survey"
+          className="text-[13px] text-muted-text no-underline font-medium transition-colors duration-200 hover:text-white"
+        >
+          Survey
+        </Link>
         <a
           href="mailto:hello@gethobby.com"
           className="text-[13px] text-muted-text no-underline font-medium transition-colors duration-200 hover:text-white"
