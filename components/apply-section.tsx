@@ -36,14 +36,14 @@ export function ApplySection() {
           3 of 8 seats filled · Applications close soon
         </div>
 
-        <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-0 mb-14 relative">
-          <div className="hidden md:block absolute top-[18px] left-[18%] right-[18%] h-px bg-border-gold" />
+        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-0 mb-14 relative">
+          <div className="hidden md:block absolute top-[45px] left-[12%] right-[12%] h-px bg-border-white" />
           {steps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center gap-3 flex-1 max-w-[180px] mx-auto md:mx-0">
-              <div className="w-9 h-9 bg-card-dark border border-border-gold rounded-full flex items-center justify-center text-[13px] font-bold text-gold relative z-10">
+            <div key={index} className="flex flex-col items-center gap-4 flex-1 max-w-[200px] mx-auto md:mx-0">
+              <div className="w-[28px] h-[28px] bg-gold text-midnight border-0 rounded-full flex items-center justify-center text-[13px] font-bold font-serif relative z-10 flex-shrink-0">
                 {index + 1}
               </div>
-              <span className="text-xs text-muted-text text-center leading-[1.5]">{step}</span>
+              <span className="text-[14px] text-white font-semibold text-center leading-[1.5]">{step}</span>
             </div>
           ))}
         </div>
@@ -57,7 +57,7 @@ export function ApplySection() {
           </Link>
           <p className="text-xs text-muted-text">
             Or if you&apos;re already ready —{" "}
-            <a href="mailto:hello@gethobby.com" className="text-gold no-underline">
+            <a href="mailto:hello@hobbyaccelerator.com" className="text-gold no-underline">
               email us directly
             </a>{" "}
             to skip ahead.
