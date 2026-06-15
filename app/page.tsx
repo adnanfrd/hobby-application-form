@@ -8,7 +8,7 @@ import { OfferSection } from "@/components/offer-section"
 import { ApplySection } from "@/components/apply-section"
 import { FaqSection } from "@/components/faq-section"
 import { NewsletterSection } from "@/components/newsletter-section"
-import { Footer } from "@/components/footer"
+import { Footer, BottomBar } from "@/components/footer"
 
 export default function Home() {
   return (
@@ -24,6 +24,7 @@ export default function Home() {
       <FaqSection />
       <NewsletterSection />
       <Footer />
+      <BottomBar />
     </main>
   )
 }

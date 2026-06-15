@@ -3,7 +3,7 @@ import Link from "next/link"
 export function Footer() {
   return (
     <footer className="bg-midnight border-t border-border-white px-[6%] py-14">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 mb-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-10">
         {/* Logo Column */}
         <div className="flex flex-col gap-2">
           <div className="font-serif text-2xl font-extrabold text-white">
@@ -70,17 +70,23 @@ export function Footer() {
             Privacy Policy
           </Link>
         </div>
-
-        {/* Info Column */}
-        <div className="flex flex-col gap-3 text-right md:text-right text-left">
-          <p className="text-xs text-white/60">© 2026 Hobby · A Falcon Accelerator Company</p>
-          <p className="text-xs text-white/60">hello@hobbyaccelerator.com</p>
-          <p className="text-[12px] text-muted-text italic">Built for executives who are done saying &quot;one day.&quot;</p>
-        </div>
       </div>
-
-      {/* Bottom Divider */}
-      <div className="border-t border-border-white/30" />
     </footer>
+  )
+}
+
+export function BottomBar() {
+  return (
+    <div className="bg-midnight border-t border-border-white/30 px-[6%] py-6">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-xs text-white/60 items-center justify-center md:justify-start">
+          <span>© 2026 Hobby · A Falcon Accelerator Company</span>
+          <a href="mailto:hello@hobbyaccelerator.com" className="text-white/60 no-underline hover:text-white transition-colors">
+            hello@hobbyaccelerator.com
+          </a>
+        </div>
+        <p className="text-[12px] text-muted-text italic">Built for executives who are done saying &quot;one day.&quot;</p>
+      </div>
+    </div>
   )
 }
