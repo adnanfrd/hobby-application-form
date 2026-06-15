@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { FaCircleCheck, FaBolt, FaMapPin, FaClock } from "react-icons/fa6"
 
 interface QuizAnswer {
   step: number
@@ -82,10 +83,10 @@ function getResults(score: number, name: string, email: string) {
       title: "You're closer than you think.",
       desc: `${name}, your score of ${score}/100 puts you in the top tier of idea readiness. The foundations are there. What you need now is a systematic framework to test it — not more preparation.`,
       insights: [
-        { icon: "✅", text: "Your ICP definition is strong enough to start discovery conversations immediately." },
-        { icon: "✅", text: "You have the time and commitment to run a full 90-day validation sprint." },
+        { icon: FaCircleCheck, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
+        { icon: FaCircleCheck, text: "You have the time and commitment to run a full 90-day validation sprint." },
         {
-          icon: "⚡",
+          icon: FaBolt,
           text: "Your next step: Stop refining the idea and start Stage 2 — 10 customer conversations in 2 weeks.",
         },
       ],
@@ -98,10 +99,10 @@ function getResults(score: number, name: string, email: string) {
       title: "One or two things to sharpen — then you test.",
       desc: `${name}, your score of ${score}/100 means you're in solid territory — but there are specific gaps between you and a successful 90-day test. The good news: every one of them is fixable.`,
       insights: [
-        { icon: "🔧", text: "ICP definition likely needs sharpening. Vague customers = vague results." },
-        { icon: "⏰", text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
+        { icon: FaMapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
+        { icon: FaClock, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
         {
-          icon: "📍",
+          icon: FaCircleCheck,
           text: "Your next step: Join the free 75-min workshop — From Buried Idea to First Customer. Link in your inbox.",
         },
       ],
@@ -114,10 +115,10 @@ function getResults(score: number, name: string, email: string) {
       title: "The foundation needs work — that's exactly what we're here for.",
       desc: `${name}, your score of ${score}/100 tells us the idea hasn't been articulated clearly enough to test yet. That's not a problem — it's Stage 1 of the Hobby Method. Most people start here.`,
       insights: [
-        { icon: "📝", text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
-        { icon: "🎯", text: "ICP definition needs to come before any testing. We'll walk you through it." },
+        { icon: FaClock, text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
+        { icon: FaMapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
         {
-          icon: "📅",
+          icon: FaClock,
           text: "Your next step: complete the framework, then re-take this quiz in 2 weeks. You'll score higher.",
         },
       ],
@@ -343,12 +344,15 @@ export function QuizSection() {
 
             <div className="mb-7">
               <h4 className="text-xs font-bold text-gold tracking-[2px] uppercase mb-4">Your personalised insights</h4>
-              {results?.insights.map((insight, index) => (
+              {results?.insights.map((insight, index) => {
+                const IconComponent = insight.icon
+                return (
                 <div key={index} className="flex gap-3.5 bg-white/[0.02] rounded-lg p-3.5 px-4 mb-2.5">
-                  <span className="text-base flex-shrink-0 mt-px">{insight.icon}</span>
+                  <IconComponent className="text-base flex-shrink-0 mt-px text-gold" size={20} />
                   <span className="text-[13px] text-cream leading-[1.6]">{insight.text}</span>
                 </div>
-              ))}
+              )
+              })}
             </div>
 
             <div className="text-center">

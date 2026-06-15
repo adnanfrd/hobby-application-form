@@ -6,6 +6,7 @@ import { MethodSection } from "@/components/method-section"
 import { ICPSection } from "@/components/icp-section"
 import { OfferSection } from "@/components/offer-section"
 import { ApplySection } from "@/components/apply-section"
+import { NewsletterSection } from "@/components/newsletter-section"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <ICPSection />
       <OfferSection />
       <ApplySection />
+      <NewsletterSection />
       <Footer />
     </main>
   )

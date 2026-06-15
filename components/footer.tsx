@@ -31,12 +31,30 @@ export function Footer() {
         >
           Take the Quiz
         </Link>
+        <Link
+          href="/survey"
+          className="text-[13px] text-muted-text no-underline font-medium transition-colors duration-200 hover:text-white"
+        >
+          Survey
+        </Link>
         <a
           href="mailto:hello@gethobby.com"
           className="text-[13px] text-muted-text no-underline font-medium transition-colors duration-200 hover:text-white"
         >
           Contact
         </a>
+        <Link
+          href="/terms"
+          className="text-[13px] text-muted-text no-underline font-medium transition-colors duration-200 hover:text-white"
+        >
+          Terms of Service
+        </Link>
+        <Link
+          href="/privacy"
+          className="text-[13px] text-muted-text no-underline font-medium transition-colors duration-200 hover:text-white"
+        >
+          Privacy Policy
+        </Link>
       </div>
       <p className="text-xs text-white/20">© 2026 Hobby · A Falcon Accelerator Company · hello@gethobby.com</p>
     </footer>
