@@ -57,7 +57,7 @@ export function ApplySection() {
           </Link>
           <p className="text-xs text-muted-text">
             Or if you&apos;re already ready —{" "}
-            <a href="mailto:hello@gethobby.com" className="text-gold no-underline">
+            <a href="mailto:hello@hobbyaccelerator.com" className="text-gold no-underline">
               email us directly
             </a>{" "}
             to skip ahead.
