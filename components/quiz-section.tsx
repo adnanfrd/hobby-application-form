@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { FaCircleCheck, FaBolt, FaMapPin, FaClock } from "react-icons/fa6"
+import { FaCircleCheck, FaBolt, FaMapPin, FaClock, FaChevronDown } from "react-icons/fa6"
 
 interface QuizAnswer {
   step: number
@@ -15,10 +15,10 @@ const questions = [
     text: "How long have you been sitting on this idea?",
     sub: "Be honest — this helps calibrate your score accurately.",
     options: [
-      { value: 10, text: "Less than 6 months", sub: "Still fresh — good foundation to build from" },
-      { value: 25, text: "6 months – 2 years", sub: "You've had time to think it through — let's see what's there" },
+      { value: 40, text: "Less than 6 months", sub: "Still fresh — good foundation to build from" },
+      { value: 30, text: "6 months – 2 years", sub: "You've had time to think it through — let's see what's there" },
       { value: 20, text: "2–5 years", sub: 'Classic "one day" pattern — the Dream Tax is real' },
-      { value: 15, text: "5+ years (or multiple ideas)", sub: "You're a thinker. Time to become a tester." },
+      { value: 10, text: "5+ years (or multiple ideas)", sub: "You're a thinker. Time to become a tester." },
     ],
   },
   {
@@ -26,15 +26,15 @@ const questions = [
     text: "Can you name your first paying customer — specifically?",
     sub: "Not a demographic. A real person type with a real job, real pain, real budget.",
     options: [
-      { value: 5, text: "Not yet — it's a broad market", sub: "This is the #1 thing to fix first" },
+      { value: 10, text: "Not yet — it's a broad market", sub: "This is the #1 thing to fix first" },
       {
-        value: 12,
+        value: 20,
         text: "I have a general sense — but it's vague",
         sub: "A starting point — Stage 1 of the Hobby Method sharpens this",
       },
-      { value: 20, text: "Yes — I can describe them precisely", sub: "Strong signal. The ICP foundation is there." },
+      { value: 30, text: "Yes — I can describe them precisely", sub: "Strong signal. The ICP foundation is there." },
       {
-        value: 25,
+        value: 40,
         text: "Yes — and I've spoken to 3+ potential customers",
         sub: "This puts you ahead of 90% of pre-launch founders",
       },
@@ -45,18 +45,18 @@ const questions = [
     text: "What's been the main thing holding you back?",
     sub: "Be honest — there's no wrong answer. This calibrates your personalised next step.",
     options: [
-      { value: 15, text: "Time — I'm too busy with work", sub: "Solvable. 10-15 hours/week is enough to test systematically." },
+      { value: 30, text: "Time — I'm too busy with work", sub: "Solvable. 10-15 hours/week is enough to test systematically." },
       {
-        value: 12,
+        value: 25,
         text: "Fear of failure / reputation risk",
         sub: "The most common block for high-performers. Addressable with the right structure.",
       },
       {
-        value: 10,
+        value: 20,
         text: "I'm not sure if the idea is good enough",
         sub: "That's not a feeling problem. It's a data problem. Stage 2 fixes it.",
       },
-      { value: 8, text: "All of the above", sub: "Honest answer — and exactly what Hobby is designed for" },
+      { value: 15, text: "All of the above", sub: "Honest answer — and exactly what Hobby is designed for" },
     ],
   },
   {
@@ -64,11 +64,11 @@ const questions = [
     text: "How many hours per week can you realistically commit to this?",
     sub: "Don't answer what you wish — answer what's actually possible right now.",
     options: [
-      { value: 5, text: "Less than 5 hours", sub: "Possible but tight — we'll give you a priority-only plan" },
-      { value: 15, text: "5–10 hours", sub: "Workable — many Hobby members operate in this range" },
-      { value: 20, text: "10–15 hours", sub: "The sweet spot. Enough to run the full method in 90 days." },
+      { value: 10, text: "Less than 5 hours", sub: "Possible but tight — we'll give you a priority-only plan" },
+      { value: 25, text: "5–10 hours", sub: "Workable — many Hobby members operate in this range" },
+      { value: 40, text: "10–15 hours", sub: "The sweet spot. Enough to run the full method in 90 days." },
       {
-        value: 20,
+        value: 40,
         text: "15+ hours (recently transitioned / in transition)",
         sub: "You can move fast. Let's use that window well.",
       },
@@ -77,11 +77,16 @@ const questions = [
 ]
 
 function getResults(score: number, name: string, email: string) {
-  if (score >= 70) {
+  let tier = "Not Yet"
+  if (score >= 80) tier = "Idea Ready"
+  else if (score >= 55) tier = "Early Stage"
+  else if (score >= 30) tier = "Still Forming"
+
+  if (score >= 80) {
     return {
-      label: "Launch Ready",
+      label: tier,
       title: "You're closer than you think.",
-      desc: `${name}, your score of ${score}/100 puts you in the top tier of idea readiness. The foundations are there. What you need now is a systematic framework to test it — not more preparation.`,
+      desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
         { icon: FaCircleCheck, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
         { icon: FaCircleCheck, text: "You have the time and commitment to run a full 90-day validation sprint." },
@@ -93,11 +98,11 @@ function getResults(score: number, name: string, email: string) {
       ctaText: "Apply for the Next Cohort →",
       ctaSub: `Your score and full breakdown has been sent to ${email}. Applications for Cohort 1 close soon — 5 seats remaining.`,
     }
-  } else if (score >= 40) {
+  } else if (score >= 55) {
     return {
-      label: "Almost Ready",
+      label: tier,
       title: "One or two things to sharpen — then you test.",
-      desc: `${name}, your score of ${score}/100 means you're in solid territory — but there are specific gaps between you and a successful 90-day test. The good news: every one of them is fixable.`,
+      desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
         { icon: FaMapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
         { icon: FaClock, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
@@ -111,9 +116,9 @@ function getResults(score: number, name: string, email: string) {
     }
   } else {
     return {
-      label: "Foundation First",
+      label: tier,
       title: "The foundation needs work — that's exactly what we're here for.",
-      desc: `${name}, your score of ${score}/100 tells us the idea hasn't been articulated clearly enough to test yet. That's not a problem — it's Stage 1 of the Hobby Method. Most people start here.`,
+      desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
         { icon: FaClock, text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
         { icon: FaMapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
@@ -163,7 +168,7 @@ export function QuizSection() {
       return
     }
     const raw = (answers[1] || 0) + (answers[2] || 0) + (answers[3] || 0) + (answers[4] || 0)
-    const total = Math.min(Math.round(raw), 100)
+    const total = Math.min(Math.round(raw / 4 * 100 / 10 * 10), 100)
     setFinalScore(total)
     setShowResults(true)
   }
@@ -204,11 +209,14 @@ export function QuizSection() {
           </span>
         </div>
 
-        <div className="h-[3px] bg-white/5">
-          <div
-            className="h-[3px] bg-gradient-to-r from-gold to-gold-lt transition-all duration-400"
-            style={{ width: `${progressPercent}%` }}
-          />
+        <div className="px-9 py-3 flex items-center gap-3 bg-white/[0.02] border-b border-white/5">
+          <span className="text-xs font-medium text-muted-text">Question {currentStep} of 5</span>
+          <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gold transition-all duration-400"
+              style={{ width: `${showResults ? 100 : (currentStep / 5) * 100}%` }}
+            />
+          </div>
         </div>
 
         {!showResults ? (
@@ -256,11 +264,11 @@ export function QuizSection() {
                     <span />
                   )}
                   <button
-                    onClick={handleNext}
+                    onClick={currentStep === 4 ? handleNext : handleNext}
                     disabled={selectedOption === null}
-                    className="bg-gold text-midnight border-none rounded-md px-7 py-3 text-sm font-bold cursor-pointer transition-colors duration-200 hover:bg-gold-lt disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="bg-gold text-midnight border-none rounded-md px-7 py-3 text-sm font-bold cursor-pointer transition-all duration-200 hover:bg-gold-lt disabled:opacity-35 disabled:cursor-not-allowed"
                   >
-                    Continue →
+                    {currentStep === 4 ? "Get My Score →" : "Continue →"}
                   </button>
                 </div>
               </>
@@ -333,36 +341,49 @@ export function QuizSection() {
           </div>
         ) : (
           <div className="p-11 px-10">
-            <div className="text-center p-10 bg-gold/[0.06] border border-border-gold rounded-xl mb-8">
-              <div className="w-[100px] h-[100px] mx-auto mb-4 relative flex items-center justify-center">
-                <span className="text-[42px] font-black text-gold leading-none">{finalScore}</span>
+            <div className="text-center mb-10">
+              <div className="font-serif text-[clamp(52px,8vw,72px)] font-black text-gold leading-none mb-2">
+                {finalScore} <span className="text-[42px] text-muted-text font-serif">/100</span>
               </div>
-              <div className="text-[13px] font-bold tracking-[2px] uppercase text-gold mb-2">{results?.label}</div>
-              <div className="font-serif text-[26px] font-bold text-white mb-3">{results?.title}</div>
+              <div className="text-[14px] text-muted-text font-medium mb-6">{results?.label}</div>
+              <div className="font-serif text-[22px] font-bold text-white mb-4">{results?.title}</div>
               <div className="text-sm text-muted-text leading-[1.7]">{results?.desc}</div>
             </div>
 
-            <div className="mb-7">
+            <div className="mb-8">
               <h4 className="text-xs font-bold text-gold tracking-[2px] uppercase mb-4">Your personalised insights</h4>
               {results?.insights.map((insight, index) => {
                 const IconComponent = insight.icon
                 return (
-                <div key={index} className="flex gap-3.5 bg-white/[0.02] rounded-lg p-3.5 px-4 mb-2.5">
-                  <IconComponent className="text-base flex-shrink-0 mt-px text-gold" size={20} />
-                  <span className="text-[13px] text-cream leading-[1.6]">{insight.text}</span>
-                </div>
-              )
+                  <div key={index} className="flex gap-3.5 bg-white/[0.02] rounded-lg p-3.5 px-4 mb-2.5">
+                    <IconComponent className="text-base flex-shrink-0 mt-px text-gold" size={20} />
+                    <span className="text-[13px] text-cream leading-[1.6]">{insight.text}</span>
+                  </div>
+                )
               })}
             </div>
 
             <div className="text-center">
               <Link
                 href="/apply"
-                className="bg-gold text-midnight text-[15px] font-bold px-9 py-4 mb-3.5 block w-full rounded-md no-underline text-center transition-colors duration-200 hover:bg-gold-lt"
+                className="bg-gold text-midnight text-[15px] font-bold px-9 py-4 mb-4 block w-full rounded-md no-underline text-center transition-colors duration-200 hover:bg-gold-lt"
               >
                 {results?.ctaText}
               </Link>
-              <p className="text-xs text-muted-text">{results?.ctaSub}</p>
+              <div className="space-y-2">
+                <p className="text-xs text-muted-text">{results?.ctaSub}</p>
+                <button
+                  onClick={() => {
+                    setCurrentStep(1)
+                    setShowResults(false)
+                    setAnswers({})
+                    setSelectedOption(null)
+                  }}
+                  className="text-xs text-gold font-medium no-underline cursor-pointer bg-none border-none p-0 hover:text-gold-lt transition-colors"
+                >
+                  Retake the quiz
+                </button>
+              </div>
             </div>
           </div>
         )}

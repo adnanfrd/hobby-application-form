@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { FaLock } from "react-icons/fa6"
 
 const tiers = [
   {
@@ -13,8 +14,8 @@ const tiers = [
       { text: "Accountability framework + progress tracking", enabled: true },
       { text: "Discovery call script library", enabled: true },
       { text: "Offer design workshop", enabled: true },
-      { text: "1:1 advisory sessions", enabled: false },
-      { text: "Operational audit", enabled: false },
+      { text: "1:1 advisory sessions", enabled: false, locked: true },
+      { text: "Operational audit", enabled: false, locked: true },
     ],
   },
   {
@@ -29,7 +30,7 @@ const tiers = [
       { text: "Direct async access between sessions", enabled: true },
       { text: "Priority review of discovery call recordings", enabled: true },
       { text: "Custom 90-day sprint plan built for your specific idea", enabled: true },
-      { text: "Operational audit", enabled: false },
+      { text: "Operational audit", enabled: false, locked: true },
     ],
   },
   {
@@ -70,7 +71,7 @@ export function OfferSection() {
             key={tier.name}
             className={`bg-card-dark border rounded-[14px] p-9 px-7 flex flex-col transition-colors duration-200 relative ${
               tier.featured
-                ? "border-gold bg-gradient-to-br from-gold/[0.06] to-card-dark"
+                ? "border-gold border-[1.5px] bg-gradient-to-br from-gold/[0.06] to-card-dark"
                 : "border-border-white"
             }`}
           >
@@ -87,11 +88,17 @@ export function OfferSection() {
               {tier.features.map((feature, index) => (
                 <li
                   key={index}
-                  className={`text-[13px] pl-[22px] relative leading-[1.5] before:content-['→'] before:absolute before:left-0 before:text-[11px] before:top-0.5 ${
-                    feature.enabled ? "text-cream before:text-gold" : "text-muted-text before:text-white/20"
+                  className={`text-[13px] pl-[22px] relative leading-[1.5] before:absolute before:left-0 before:text-[11px] before:top-0.5 ${
+                    feature.enabled
+                      ? "text-cream before:content-['→'] before:text-gold"
+                      : feature.locked
+                      ? "text-white/40 line-through before:content-none"
+                      : "text-muted-text before:text-white/20 before:content-['→']"
                   }`}
                 >
+                  {feature.locked && <FaLock className="absolute left-0 top-0.5 w-3 h-3 mr-2" />}
                   {feature.text}
+                  {feature.locked && <span className="text-[11px] text-muted-text ml-1">(Elite only)</span>}
                 </li>
               ))}
             </ul>

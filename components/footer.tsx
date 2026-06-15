@@ -56,7 +56,10 @@ export function Footer() {
           Privacy Policy
         </Link>
       </div>
-      <p className="text-xs text-white/20">© 2026 Hobby · A Falcon Accelerator Company · hello@gethobby.com</p>
+      <div className="w-full md:w-auto text-center md:text-right space-y-3">
+        <p className="text-xs text-white/20">© 2026 Hobby · A Falcon Accelerator Company · hello@gethobby.com</p>
+        <p className="text-[12px] text-muted-text">Built for executives who are done saying "one day."</p>
+      </div>
     </footer>
   )
 }

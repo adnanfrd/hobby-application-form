@@ -46,27 +46,26 @@ export function NewsletterSignup() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <div className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2 md:gap-3 max-w-[500px] mx-auto w-full">
+      <div className="flex-1">
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder="you@company.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-cream placeholder-muted-text focus:outline-none focus:border-gold transition"
+          className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-cream placeholder-muted-text focus:outline-none focus:border-gold transition text-[15px]"
         />
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-6 py-3 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 disabled:opacity-50 transition flex items-center gap-2"
-        >
-          <FaBell size={16} />
-          Subscribe
-        </button>
       </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="px-6 py-3 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 disabled:opacity-50 transition whitespace-nowrap text-[15px]"
+      >
+        Subscribe →
+      </button>
       {message && (
-        <p className={`text-sm ${message.type === 'success' ? 'text-green' : 'text-red'}`}>
+        <p className={`text-sm w-full ${message.type === 'success' ? 'text-green' : 'text-red'}`}>
           {message.text}
         </p>
       )}

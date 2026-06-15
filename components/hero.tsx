@@ -43,23 +43,26 @@ export function Hero() {
         </div>
 
         <div className="flex items-center gap-10 pt-12 border-t border-border-white flex-wrap">
-          <div className="flex flex-col gap-1">
-            <span className="text-4xl font-extrabold text-gold leading-none">90</span>
-            <span className="text-[11px] text-muted-text uppercase tracking-[1.5px] font-medium">
+          <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
+            <span className="font-serif text-[clamp(36px,5vw,52px)] font-black text-gold leading-none">90</span>
+            <span className="text-[12px] text-muted-text uppercase tracking-[1.5px] font-medium">
               Days to validated business
             </span>
           </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-4xl font-extrabold text-gold leading-none">8</span>
-            <span className="text-[11px] text-muted-text uppercase tracking-[1.5px] font-medium">Seats per cohort</span>
+          <div className="hidden md:block w-px h-12 bg-border-white" />
+          <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
+            <span className="font-serif text-[clamp(36px,5vw,52px)] font-black text-gold leading-none">8</span>
+            <span className="text-[12px] text-muted-text uppercase tracking-[1.5px] font-medium">Seats per cohort</span>
           </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-4xl font-extrabold text-gold leading-none">0%</span>
-            <span className="text-[11px] text-muted-text uppercase tracking-[1.5px] font-medium">Equity taken</span>
+          <div className="hidden md:block w-px h-12 bg-border-white" />
+          <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
+            <span className="font-serif text-[clamp(36px,5vw,52px)] font-black text-gold leading-none">0%</span>
+            <span className="text-[12px] text-muted-text uppercase tracking-[1.5px] font-medium">Equity taken</span>
           </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-4xl font-extrabold text-gold leading-none">5</span>
-            <span className="text-[11px] text-muted-text uppercase tracking-[1.5px] font-medium">Stage framework</span>
+          <div className="hidden md:block w-px h-12 bg-border-white" />
+          <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
+            <span className="font-serif text-[clamp(36px,5vw,52px)] font-black text-gold leading-none">5</span>
+            <span className="text-[12px] text-muted-text uppercase tracking-[1.5px] font-medium">Stage framework</span>
           </div>
         </div>
       </div>
