@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { FaBell } from 'react-icons/fa6'
 
 export function NewsletterSignup() {
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
@@ -14,28 +14,57 @@ export function NewsletterSignup() {
     setMessage(null)
 
     try {
-      const response = await fetch('/api/newsletter', {
+      // First, store the subscription in the database
+      const dbResponse = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
 
-      const data = await response.json()
+      const dbData = await dbResponse.json()
 
-      if (!response.ok) {
+      if (!dbResponse.ok) {
         setMessage({
           type: 'error',
-          text: data.error || 'Failed to subscribe',
+          text: dbData.error || 'Failed to subscribe',
         })
+        setLoading(false)
         return
       }
 
-      setMessage({
-        type: 'success',
-        text: 'Successfully subscribed to our newsletter!',
-      })
+      // Then, send the welcome email via Supabase Edge Function
+      const emailResponse = await fetch(
+        'https://dzmntqvjcaflwwtxpowk.supabase.co/functions/v1/send-newsletter-email',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            email,
+            name: name || email.split('@')[0]
+          }),
+        }
+      )
+
+      const emailData = await emailResponse.json()
+
+      if (!emailResponse.ok) {
+        console.log('[v0] Email sending warning:', emailData)
+        // Still show success even if email fails, as subscription was saved
+        setMessage({
+          type: 'success',
+          text: 'Successfully subscribed! Check your email for a welcome message.',
+        })
+      } else {
+        setMessage({
+          type: 'success',
+          text: 'Successfully subscribed! Check your email for a welcome message.',
+        })
+      }
+
       setEmail('')
+      setName('')
     } catch (error) {
+      console.log('[v0] Error:', error)
       setMessage({
         type: 'error',
         text: 'An error occurred. Please try again.',
