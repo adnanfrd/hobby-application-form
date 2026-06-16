@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 export function NewsletterSignup() {
   const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
@@ -14,57 +13,40 @@ export function NewsletterSignup() {
     setMessage(null)
 
     try {
-      // First, store the subscription in the database
-      const dbResponse = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-
-      const dbData = await dbResponse.json()
-
-      if (!dbResponse.ok) {
-        setMessage({
-          type: 'error',
-          text: dbData.error || 'Failed to subscribe',
-        })
-        setLoading(false)
-        return
-      }
-
-      // Then, send the welcome email via Supabase Edge Function
-      const emailResponse = await fetch(
+      console.log('[v0] Sending newsletter signup to Edge Function:', email)
+      
+      const response = await fetch(
         'https://dzmntqvjcaflwwtxpowk.supabase.co/functions/v1/send-newsletter-email',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             email,
-            name: name || email.split('@')[0]
+            name: email.split('@')[0]
           }),
         }
       )
 
-      const emailData = await emailResponse.json()
+      const data = await response.json()
+      console.log('[v0] Edge Function response:', data, 'Status:', response.status)
 
-      if (!emailResponse.ok) {
-        console.log('[v0] Email sending warning:', emailData)
-        // Still show success even if email fails, as subscription was saved
+      if (!response.ok) {
+        console.error('[v0] Edge Function error:', data)
         setMessage({
-          type: 'success',
-          text: 'Successfully subscribed! Check your email for a welcome message.',
+          type: 'error',
+          text: data.error || 'Failed to subscribe. Please try again.',
         })
-      } else {
-        setMessage({
-          type: 'success',
-          text: 'Successfully subscribed! Check your email for a welcome message.',
-        })
+        setLoading(false)
+        return
       }
 
+      setMessage({
+        type: 'success',
+        text: 'Successfully subscribed! Check your email for a welcome message.',
+      })
       setEmail('')
-      setName('')
     } catch (error) {
-      console.log('[v0] Error:', error)
+      console.error('[v0] Subscription error:', error)
       setMessage({
         type: 'error',
         text: 'An error occurred. Please try again.',
@@ -91,10 +73,10 @@ export function NewsletterSignup() {
         disabled={loading}
         className="px-6 py-3 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 disabled:opacity-50 transition whitespace-nowrap text-[15px]"
       >
-        Subscribe →
+        {loading ? 'Subscribing...' : 'Subscribe →'}
       </button>
       {message && (
-        <p className={`text-sm w-full ${message.type === 'success' ? 'text-green' : 'text-red'}`}>
+        <p className={`text-sm w-full ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
           {message.text}
         </p>
       )}
