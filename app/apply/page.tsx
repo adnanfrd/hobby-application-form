@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Navigation } from "@/components/navigation"
+import { invokeEdgeFunction } from "@/lib/supabase/functions"
 
 const experienceOptions = [
   { value: "3-5", label: "3–5 years" },
@@ -74,6 +75,8 @@ const commitments = [
 
 export default function ApplyPage() {
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -95,11 +98,21 @@ export default function ApplyPage() {
     commitment_confirmed: false,
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Application submitted:", formData)
-    setSubmitted(true)
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    setSubmitting(true)
+    setSubmitError(null)
+
+    try {
+      await invokeEdgeFunction("submit-application", formData)
+
+      setSubmitted(true)
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "An error occurred. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -614,11 +627,17 @@ export default function ApplyPage() {
                 </div>
 
                 <div className="text-center">
+                  {submitError && (
+                    <p className="mb-4 rounded-md border border-red/25 bg-red/10 px-4 py-3 text-sm text-red">
+                      {submitError}
+                    </p>
+                  )}
                   <button
                     type="submit"
-                    className="bg-gold text-navy border-none text-base font-bold px-14 py-[18px] rounded-[5px] cursor-pointer font-sans transition-all duration-200 tracking-[0.02em] hover:translate-y-[-2px] hover:opacity-90"
+                    disabled={submitting}
+                    className="bg-gold text-navy border-none text-base font-bold px-14 py-[18px] rounded-[5px] cursor-pointer font-sans transition-all duration-200 tracking-[0.02em] hover:translate-y-[-2px] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                   >
-                    Submit Application →
+                    {submitting ? "Submitting..." : "Submit Application ->"}
                   </button>
                   <p className="text-xs text-muted-text mt-3">
                     You&apos;ll hear from us within 3 business days. If selected, we&apos;ll invite you to a free 30-minute

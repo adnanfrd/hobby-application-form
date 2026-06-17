@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6'
+import { invokeEdgeFunction } from '@/lib/supabase/functions'
 
 export function NewsletterSignup() {
   const [email, setEmail] = useState('')
@@ -26,21 +27,7 @@ export function NewsletterSignup() {
     setMessage(null)
 
     try {
-      const response = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        setMessage({
-          type: 'error',
-          text: data.error || 'Failed to subscribe',
-        })
-        return
-      }
+      await invokeEdgeFunction('send-newsletter-email', { email })
 
       setMessage({
         type: 'success',
@@ -50,7 +37,7 @@ export function NewsletterSignup() {
     } catch (error) {
       setMessage({
         type: 'error',
-        text: 'An error occurred. Please try again.',
+        text: error instanceof Error ? error.message : 'An error occurred. Please try again.',
       })
     } finally {
       setLoading(false)

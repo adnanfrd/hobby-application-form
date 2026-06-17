@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { invokeEdgeFunction } from '@/lib/supabase/functions'
 
 interface SurveyFormData {
   email: string
@@ -43,19 +44,7 @@ export function SurveyForm() {
     setError(null)
 
     try {
-      const response = await fetch('/api/survey', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        setError(data.error || 'Failed to submit survey')
-        setLoading(false)
-        return
-      }
+      await invokeEdgeFunction('submit-survey', formData)
 
       setSubmitted(true)
       setFormData({
@@ -69,7 +58,8 @@ export function SurveyForm() {
         additionalNotes: '',
       })
     } catch (err) {
-      setError('An error occurred. Please try again.')
+      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.')
+    } finally {
       setLoading(false)
     }
   }

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { FaCircleCheck, FaBolt, FaMapPin, FaClock, FaChevronDown } from "react-icons/fa6"
+import { invokeEdgeFunction } from "@/lib/supabase/functions"
 
 interface QuizAnswer {
   step: number
@@ -133,6 +134,13 @@ function getResults(score: number, name: string, email: string) {
   }
 }
 
+function getReadinessLabel(score: number) {
+  if (score >= 80) return "Idea Ready"
+  if (score >= 55) return "Early Stage"
+  if (score >= 30) return "Still Forming"
+  return "Not Yet"
+}
+
 export function QuizSection() {
   const [currentStep, setCurrentStep] = useState(1)
   const [answers, setAnswers] = useState<Record<number, number>>({})
@@ -140,6 +148,8 @@ export function QuizSection() {
   const [showResults, setShowResults] = useState(false)
   const [formData, setFormData] = useState({ name: "", email: "", role: "" })
   const [finalScore, setFinalScore] = useState(0)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const totalSteps = 5
 
@@ -162,15 +172,45 @@ export function QuizSection() {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.name || !formData.email) {
-      alert("Please enter your name and email to receive your score.")
+      setSubmitError("Please enter your name and email to receive your score.")
       return
     }
+
+    setSubmitting(true)
+    setSubmitError(null)
+
     const raw = (answers[1] || 0) + (answers[2] || 0) + (answers[3] || 0) + (answers[4] || 0)
-    const total = Math.min(Math.round(raw / 4 * 100 / 10 * 10), 100)
-    setFinalScore(total)
-    setShowResults(true)
+    const total = Math.min(Math.round((raw / 160) * 100), 100)
+    const readinessLabel = getReadinessLabel(total)
+    const answerDetails = questions.map((question) => {
+      const selectedValue = answers[question.step]
+      const selectedOption = question.options.find((option) => option.value === selectedValue)
+
+      return {
+        step: question.step,
+        question: question.text,
+        value: selectedValue || null,
+        answer: selectedOption?.text || null,
+      }
+    })
+
+    try {
+      await invokeEdgeFunction("submit-quiz", {
+        ...formData,
+        answers: answerDetails,
+        score: total,
+        readinessLabel,
+      })
+
+      setFinalScore(total)
+      setShowResults(true)
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "An error occurred. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const progressPercent = showResults ? 100 : ((currentStep - 1) / totalSteps) * 100
@@ -322,18 +362,25 @@ export function QuizSection() {
                   selling. Unsubscribe instantly at any time.
                 </p>
 
+                {submitError && (
+                  <p className="mt-4 rounded-md border border-red/25 bg-red/10 px-4 py-3 text-sm text-red">
+                    {submitError}
+                  </p>
+                )}
+
                 <div className="flex items-center justify-between mt-9">
                   <button
                     onClick={handleBack}
                     className="bg-transparent border-none text-[13px] text-muted-text cursor-pointer p-0 transition-colors duration-200 hover:text-white"
                   >
-                    ← Back
+                    Back
                   </button>
                   <button
                     onClick={handleSubmit}
-                    className="bg-gold text-midnight border-none rounded-md px-8 py-3.5 text-[15px] font-bold cursor-pointer transition-colors duration-200 hover:bg-gold-lt"
+                    disabled={submitting}
+                    className="bg-gold text-midnight border-none rounded-md px-8 py-3.5 text-[15px] font-bold cursor-pointer transition-colors duration-200 hover:bg-gold-lt disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Get My Score →
+                    {submitting ? "Saving..." : "Get My Score ->"}
                   </button>
                 </div>
               </>
