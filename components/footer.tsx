@@ -85,7 +85,7 @@ export function BottomBar() {
             hello@hobbyaccelerator.com
           </a>
         </div>
-        <p className="text-[12px] text-muted-text italic">Built for executives who are done saying &quot;one day.&quot;</p>
+        <p className="text-[12px] text-muted-text italic">Built for executives who"Hello" are done saying &quot;one day.&quot;</p>
       </div>
     </div>
   )
