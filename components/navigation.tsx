@@ -33,7 +33,7 @@ export function Navigation({ showBackLink = false }: NavProps) {
           href="/"
           className="text-[13px] text-cream/55 no-underline transition-colors duration-200 hover:text-gold"
         >
-          ← Back to Hobby
+          Back to Hobby
         </Link>
       ) : (
         <div className="hidden md:flex items-center gap-8">
@@ -59,7 +59,7 @@ export function Navigation({ showBackLink = false }: NavProps) {
             href="#quiz"
             className="bg-gold text-midnight px-[22px] py-[9px] rounded-md font-bold text-[13px] transition-colors duration-200 hover:bg-gold-lt"
           >
-            Take the Quiz →
+            Take the Quiz
           </Link>
         </div>
       )}

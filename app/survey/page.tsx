@@ -3,7 +3,7 @@ import { SurveyForm } from "@/components/survey-form"
 import { Footer } from "@/components/footer"
 
 export const metadata = {
-  title: "Hobby Survey - Share Your Story",
+  title: "Hobby Survey: Share Your Story",
   description: "Take a quick survey to help us understand your journey as a side builder.",
 }
 

@@ -5,10 +5,10 @@ const tiers = [
   {
     name: "Core",
     price: "$8,000",
-    sub: "The full Hobby Method — structured, systematic, and supported.",
+    sub: "The full Hobby Method: structured, systematic, and supported.",
     featured: false,
     features: [
-      { text: "90-day cohort curriculum (5 stages)", enabled: true },
+      { text: "90 day cohort curriculum (5 stages)", enabled: true },
       { text: "Weekly group strategy sessions", enabled: true },
       { text: "Private Hobby community (cohort only)", enabled: true },
       { text: "Accountability framework + progress tracking", enabled: true },
@@ -29,7 +29,7 @@ const tiers = [
       { text: "Personal offer review and pricing audit", enabled: true },
       { text: "Direct async access between sessions", enabled: true },
       { text: "Priority review of discovery call recordings", enabled: true },
-      { text: "Custom 90-day sprint plan built for your specific idea", enabled: true },
+      { text: "Custom 90 day sprint plan built for your specific idea", enabled: true },
       { text: "Operational audit", enabled: false, locked: true },
     ],
   },
@@ -57,11 +57,11 @@ export function OfferSection() {
       <h2 className="font-serif text-[clamp(32px,4vw,52px)] font-bold leading-[1.15] mb-[18px] text-white">
         Three ways to engage.
         <br />
-        One <em className="italic text-gold">90-day commitment.</em>
+        One <em className="italic text-gold">90 day commitment.</em>
       </h2>
       <div className="w-11 h-[3px] bg-gold rounded-sm my-[22px] mb-[38px]" />
       <p className="text-[17px] text-muted-text max-w-[580px] leading-[1.8]">
-        All tiers include the full Hobby Method. The difference is the depth of operational support — and what happens
+        All tiers include the full Hobby Method. The difference is the depth of operational support, and what happens
         at the end.
       </p>
 
@@ -90,10 +90,10 @@ export function OfferSection() {
                   key={index}
                   className={`text-[13px] pl-[22px] relative leading-[1.5] before:absolute before:left-0 before:text-[11px] before:top-0.5 ${
                     feature.enabled
-                      ? "text-cream before:content-['→'] before:text-gold"
+                      ? "text-cream before:content-['•'] before:text-gold"
                       : feature.locked
                       ? "text-white/40 line-through before:content-none"
-                      : "text-muted-text before:text-white/20 before:content-['→']"
+                      : "text-muted-text before:text-white/20 before:content-['•']"
                   }`}
                 >
                   {feature.locked && <FaLock className="absolute left-0 top-0.5 w-3 h-3 mr-2" />}
@@ -110,7 +110,7 @@ export function OfferSection() {
                   : "bg-gold/10 border-border-gold text-gold hover:bg-gold hover:text-midnight"
               }`}
             >
-              Apply for {tier.name} →
+              Apply for {tier.name}
             </Link>
           </div>
         ))}

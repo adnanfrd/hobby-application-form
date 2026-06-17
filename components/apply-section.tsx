@@ -20,7 +20,7 @@ export function ApplySection() {
           waiting long enough.
         </h2>
         <p className="text-lg text-muted-text leading-[1.7] mb-14">
-          Cohort 1 is limited to 8 founding executives. We keep it small so every person gets real operator time — not a
+          Cohort 1 is limited to 8 founding executives. We keep it small so every person gets real operator time, not a
           seat in a lecture hall.
         </p>
 
@@ -53,10 +53,10 @@ export function ApplySection() {
             href="#quiz"
             className="bg-gold text-midnight font-bold text-base px-12 py-[18px] rounded-md no-underline transition-colors duration-200 hover:bg-gold-lt"
           >
-            Start With the Quiz →
+            Start With the Quiz
           </Link>
           <p className="text-xs text-muted-text">
-            Or if you&apos;re already ready —{" "}
+            Or if you&apos;re already ready,{" "}
             <a href="mailto:hello@hobbyaccelerator.com" className="text-gold no-underline">
               email us directly
             </a>{" "}

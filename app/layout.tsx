@@ -15,8 +15,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Hobby — Your Buried Idea Deserves a Real Shot',
-  description: 'The 90-day accelerator for corporate professionals who are done saying "one day." Built for executives ready to test their buried business ideas.',
+  title: 'Hobby: Your Buried Idea Deserves a Real Shot',
+  description: 'The 90 day accelerator for corporate professionals who are done saying "one day." Built for executives ready to test their buried business ideas.',
 }
 
 export default function RootLayout({

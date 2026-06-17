@@ -23,7 +23,7 @@ export function Hero() {
           You&apos;ve spent years building other people&apos;s products.
           <br />
           <strong className="text-cream font-medium">
-            The 90-day accelerator for corporate professionals who are done saying &quot;one day.&quot;
+            The 90 day accelerator for corporate professionals who are done saying &quot;one day.&quot;
           </strong>
         </p>
 
@@ -32,11 +32,11 @@ export function Hero() {
             href="#quiz"
             className="inline-block bg-gold text-midnight px-8 py-4 rounded-md font-bold text-[15px] tracking-[0.3px] no-underline transition-colors duration-200 hover:bg-gold-lt"
           >
-            Take the 90-Second Idea Readiness Quiz →
+            Take the 90 Second Idea Readiness Quiz
           </Link>
           <Link
             href="#method"
-            className="inline-flex items-center gap-2 text-muted-text text-sm font-medium no-underline transition-colors duration-200 hover:text-white after:content-['→']"
+            className="inline-flex items-center gap-2 text-muted-text text-sm font-medium no-underline transition-colors duration-200 hover:text-white"
           >
             See how it works
           </Link>

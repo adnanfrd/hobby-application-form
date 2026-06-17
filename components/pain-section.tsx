@@ -14,13 +14,13 @@ const painPoints = [
     icon: FaBullseye,
     title: "No system, just pressure",
     description:
-      "You know how to build at scale. But no one ever gave you the framework for applying your skills to your own idea — without blowing up your career to do it.",
+      "You know how to build at scale. But no one ever gave you the framework for applying your skills to your own idea, without blowing up your career to do it.",
   },
   {
     icon: FaLock,
     title: "Reputation risk paralysis",
     description:
-      'You can\'t afford to fail publicly. The people who respect your professional track record — they\'ll see it. So you wait until it\'s "ready." It never is.',
+      'You can\'t afford to fail publicly. The people who respect your professional track record, they\'ll see it. So you wait until it\'s "ready." It never is.',
   },
   {
     icon: FaChartBar,
@@ -69,7 +69,7 @@ export function PainSection() {
             &quot;I&apos;ve shipped products used by 200 million people. But I can&apos;t figure out how to get 10
             people to pay me for something I built myself.&quot;
           </blockquote>
-          <cite className="block mt-3.5 text-xs text-muted-text not-italic">— Senior PM, FAANG. Now in Hobby Cohort 1.</cite>
+          <cite className="block mt-3.5 text-xs text-muted-text not-italic">Senior PM, FAANG. Now in Hobby Cohort 1.</cite>
         </div>
       </div>
     </section>

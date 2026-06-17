@@ -5,56 +5,56 @@ import { Navigation } from "@/components/navigation"
 import { invokeEdgeFunction } from "@/lib/supabase/functions"
 
 const experienceOptions = [
-  { value: "3-5", label: "3–5 years" },
-  { value: "6-10", label: "6–10 years" },
-  { value: "11-15", label: "11–15 years" },
+  { value: "3-5", label: "3 to 5 years" },
+  { value: "6-10", label: "6 to 10 years" },
+  { value: "11-15", label: "11 to 15 years" },
   { value: "16+", label: "16+ years" },
 ]
 
 const ideaAgeOptions = [
   { value: "under-6-months", label: "Under 6 months" },
-  { value: "6-12-months", label: "6–12 months" },
-  { value: "1-2-years", label: "1–2 years" },
-  { value: "2-5-years", label: "2–5 years" },
+  { value: "6-12-months", label: "6 to 12 months" },
+  { value: "1-2-years", label: "1 to 2 years" },
+  { value: "2-5-years", label: "2 to 5 years" },
   { value: "5-plus-years", label: "5+ years" },
 ]
 
 const blockerOptions = [
-  { value: "time", label: "Time — my job doesn't leave room for it" },
-  { value: "fear", label: "Fear — I'm not sure it will work, and I don't want to fail publicly" },
-  { value: "knowledge", label: "Knowledge — I don't know how to build or validate a business" },
-  { value: "validation", label: "Validation — I don't know if anyone would actually pay for this" },
+  { value: "time", label: "Time: my job doesn't leave room for it" },
+  { value: "fear", label: "Fear: I'm not sure it will work, and I don't want to fail publicly" },
+  { value: "knowledge", label: "Knowledge: I don't know how to build or validate a business" },
+  { value: "validation", label: "Validation: I don't know if anyone would actually pay for this" },
   { value: "all", label: "All of the above" },
 ]
 
 const hoursOptions = [
-  { value: "under-4", label: "Under 4 hours — I'm very constrained" },
-  { value: "4-6", label: "4–6 hours — manageable alongside my job" },
-  { value: "7-10", label: "7–10 hours — I can prioritise this" },
-  { value: "10-plus", label: "10+ hours — I'm treating this as a serious side project" },
+  { value: "under-4", label: "Under 4 hours: I'm very constrained" },
+  { value: "4-6", label: "4 to 6 hours, manageable alongside my job" },
+  { value: "7-10", label: "7 to 10 hours, I can prioritise this" },
+  { value: "10-plus", label: "10+ hours: I'm treating this as a serious side project" },
 ]
 
 const tierOptions = [
-  { value: "core", label: "Core — $8,000", sub: "10-week cohort, full curriculum, community access" },
+  { value: "core", label: "Core: $8,000", sub: "10 week cohort, full curriculum, community access" },
   {
     value: "premium",
-    label: "Premium — $12,000",
+    label: "Premium: $12,000",
     badge: "MOST POPULAR",
     sub: "Core + monthly 1:1 coaching + idea review sessions",
   },
   {
     value: "elite",
-    label: "Elite — $15,000",
-    sub: "Premium + weekly 1:1s + co-founder advisory + priority intro to Falcon network",
+    label: "Elite: $15,000",
+    sub: "Premium + weekly 1:1s + cofounder advisory + priority intro to Falcon network",
   },
-  { value: "undecided", label: "Undecided — I'd like to discuss on the discovery call" },
+  { value: "undecided", label: "Undecided: I'd like to discuss on the discovery call" },
 ]
 
 const priorExperienceOptions = [
-  { value: "never", label: "Never — this would be my first" },
-  { value: "side-project", label: "Yes — side projects or freelance work" },
-  { value: "startup", label: "Yes — I've worked at or co-founded a startup" },
-  { value: "exited", label: "Yes — I've built and exited a business" },
+  { value: "never", label: "Never: this would be my first" },
+  { value: "side_project", label: "Yes, side projects or freelance work" },
+  { value: "startup", label: "Yes, I've worked at or co-founded a startup" },
+  { value: "exited", label: "Yes, I've built and exited a business" },
 ]
 
 const referralOptions = [
@@ -67,9 +67,9 @@ const referralOptions = [
 ]
 
 const commitments = [
-  "I can commit 4–6 hours per week to Hobby for 10 weeks",
+  "I can commit 4 to 6 hours per week to Hobby for 10 weeks",
   "I am willing to have 10 real discovery conversations with potential customers",
-  "I understand Hobby does not guarantee a successful business — it guarantees a tested and validated idea",
+  "I understand Hobby does not guarantee a successful business: it guarantees a tested and validated idea",
   "I am applying in good faith with a real idea I intend to act on",
 ]
 
@@ -137,7 +137,7 @@ export default function ApplyPage() {
           HOBBY
         </div>
         <a href="/" className="text-[13px] text-cream/55 no-underline transition-colors duration-200 hover:text-gold">
-          ← Back to Hobby
+          Back to Hobby
         </a>
       </nav>
 
@@ -147,7 +147,7 @@ export default function ApplyPage() {
         </div>
         <h1 className="font-serif text-[clamp(32px,5vw,52px)] text-cream mb-3.5">Apply for Hobby</h1>
         <p className="text-[17px] text-cream/65 max-w-[520px] mx-auto font-light">
-          Tell us about your buried idea. We review every application personally — no automated filters.
+          Tell us about your buried idea. We review every application personally, no automated filters.
         </p>
       </div>
 
@@ -196,7 +196,7 @@ export default function ApplyPage() {
               </div>
               <div className="flex justify-between items-center py-2 border-b border-[#DDD8D0] text-[13px]">
                 <span className="text-muted-text">Investment</span>
-                <span className="font-bold text-navy">$8K–$15K</span>
+                <span className="font-bold text-navy">$8K to $15K</span>
               </div>
               <div className="flex justify-between items-center py-2 text-[13px]">
                 <span className="text-muted-text">Equity</span>
@@ -343,13 +343,13 @@ export default function ApplyPage() {
                   </div>
                   <div className="font-serif text-[22px] text-navy mb-1">The Buried Idea</div>
                   <div className="text-[13px] text-muted-text mb-6 leading-[1.6]">
-                    Tell us about the idea you&apos;ve been sitting on. Don&apos;t worry if it&apos;s rough — rough ideas are
+                    Tell us about the idea you&apos;ve been sitting on. Don&apos;t worry if it&apos;s rough, rough ideas are
                     expected at this stage.
                   </div>
 
                   <div className="mb-5">
                     <label className="block text-[13px] font-semibold text-navy mb-1.5">
-                      Describe your idea in 2–3 sentences. <span className="text-gold">*</span>
+                      Describe your idea in 2 to 3 sentences. <span className="text-gold">*</span>
                       <span className="font-normal text-muted-text text-xs ml-1">
                         (What is it? Who is it for? What problem does it solve?)
                       </span>
@@ -393,7 +393,7 @@ export default function ApplyPage() {
                     </label>
                     <textarea
                       name="unfair_advantage"
-                      placeholder="E.g. I spent 8 years running vendor ops at Amazon and later at a Series B logistics startup. I know this problem from both sides — the buyer and the operator. I have relationships with 40+ operations leaders who would be early users."
+                      placeholder="E.g. I spent 8 years running vendor ops at Amazon and later at a Series B logistics startup. I know this problem from both sides: the buyer and the operator. I have relationships with 40+ operations leaders who would be early users."
                       value={formData.unfair_advantage}
                       onChange={handleChange}
                       required
@@ -451,7 +451,7 @@ export default function ApplyPage() {
                     </label>
                     <textarea
                       name="outcome"
-                      placeholder="E.g. I want to know within 90 days whether this idea is worth pursuing full-time. Ideally I'd have my first paying customer and a clear picture of whether to continue. I'm not trying to quit my job tomorrow — I want to test this intelligently before making a bigger commitment."
+                      placeholder="E.g. I want to know within 90 days whether this idea is worth pursuing full time. Ideally I'd have my first paying customer and a clear picture of whether to continue. I'm not trying to quit my job tomorrow, I want to test this intelligently before making a bigger commitment."
                       value={formData.outcome}
                       onChange={handleChange}
                       required
@@ -561,7 +561,7 @@ export default function ApplyPage() {
                     </label>
                     <textarea
                       name="anything_else"
-                      placeholder="Anything that gives us better context — constraints, timelines, co-founders, prior traction, relevant background..."
+                      placeholder="Anything that gives us better context: constraints, timelines, cofounders, prior traction, relevant background..."
                       value={formData.anything_else}
                       onChange={handleChange}
                       className={`${textareaStyles} min-h-[90px]`}
@@ -640,8 +640,8 @@ export default function ApplyPage() {
                     {submitting ? "Submitting..." : "Submit Application ->"}
                   </button>
                   <p className="text-xs text-muted-text mt-3">
-                    You&apos;ll hear from us within 3 business days. If selected, we&apos;ll invite you to a free 30-minute
-                    discovery call — no payment required at this stage.
+                    You&apos;ll hear from us within 3 business days. If selected, we&apos;ll invite you to a free 30 minute
+                    discovery call, no payment required at this stage.
                   </p>
                 </div>
               </form>
@@ -650,13 +650,13 @@ export default function ApplyPage() {
                 <div className="text-[52px] mb-5">✦</div>
                 <h2 className="font-serif text-[32px] text-navy mb-3">Application received.</h2>
                 <p className="text-base text-muted-text max-w-[480px] mx-auto mb-6 leading-[1.7]">
-                  Thank you for applying to Hobby Cohort 1. We review every application personally — you&apos;ll hear from
+                  Thank you for applying to Hobby Cohort 1. We review every application personally, you&apos;ll hear from
                   us within 3 business days.
                 </p>
                 <div className="bg-navy text-cream/80 rounded-lg p-5 px-7 text-sm max-w-[400px] mx-auto text-left leading-[1.8]">
                   <strong className="text-gold">What happens next:</strong>
                   <br />
-                  1. We review your application (1–3 days)
+                  1. We review your application (1 to 3 days)
                   <br />
                   2. If there&apos;s a fit, we invite you to a free 30-min discovery call
                   <br />

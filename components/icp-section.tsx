@@ -6,14 +6,14 @@ const yesItems = [
   "5+ years in a corporate or professional role (FAANG, finance, consulting, law)",
   "Business idea you've been carrying for 12+ months",
   "Currently employed or recently in transition with severance",
-  "10–15 hours per week you're willing to protect for this",
-  "You want a systematic framework — not motivation or mindset work",
+  "10 to 15 hours per week you're willing to protect for this",
+  "You want a systematic framework, not motivation or mindset work",
   "Targeting Western markets (US / UK / AUS) first",
-  "Coachable — you know what you don't know",
+  "Coachable: you know what you don't know",
 ]
 
 const noItems = [
-  "Idea stage only — no clarity on what problem you're solving",
+  "Idea stage only, no clarity on what problem you're solving",
   "Student or pre-employment (different program for you)",
   "Already launched and looking for growth support",
   "Looking for someone to do the work for you",

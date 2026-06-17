@@ -14,60 +14,60 @@ const questions = [
   {
     step: 1,
     text: "How long have you been sitting on this idea?",
-    sub: "Be honest — this helps calibrate your score accurately.",
+    sub: "Be honest, this helps calibrate your score accurately.",
     options: [
-      { value: 40, text: "Less than 6 months", sub: "Still fresh — good foundation to build from" },
-      { value: 30, text: "6 months – 2 years", sub: "You've had time to think it through — let's see what's there" },
-      { value: 20, text: "2–5 years", sub: 'Classic "one day" pattern — the Dream Tax is real' },
+      { value: 40, text: "Less than 6 months", sub: "Still fresh, good foundation to build from" },
+      { value: 30, text: "6 months to 2 years", sub: "You've had time to think it through, let's see what's there" },
+      { value: 20, text: "2 to 5 years", sub: 'Classic "one day" pattern: the Dream Tax is real' },
       { value: 10, text: "5+ years (or multiple ideas)", sub: "You're a thinker. Time to become a tester." },
     ],
   },
   {
     step: 2,
-    text: "Can you name your first paying customer — specifically?",
+    text: "Can you name your first paying customer specifically?",
     sub: "Not a demographic. A real person type with a real job, real pain, real budget.",
     options: [
-      { value: 10, text: "Not yet — it's a broad market", sub: "This is the #1 thing to fix first" },
+      { value: 10, text: "Not yet, it's a broad market", sub: "This is the #1 thing to fix first" },
       {
         value: 20,
-        text: "I have a general sense — but it's vague",
-        sub: "A starting point — Stage 1 of the Hobby Method sharpens this",
+        text: "I have a general sense, but it's vague",
+        sub: "A starting point: Stage 1 of the Hobby Method sharpens this",
       },
-      { value: 30, text: "Yes — I can describe them precisely", sub: "Strong signal. The ICP foundation is there." },
+      { value: 30, text: "Yes, I can describe them precisely", sub: "Strong signal. The ICP foundation is there." },
       {
         value: 40,
-        text: "Yes — and I've spoken to 3+ potential customers",
-        sub: "This puts you ahead of 90% of pre-launch founders",
+        text: "Yes, and I've spoken to 3+ potential customers",
+        sub: "This puts you ahead of 90% of pre launch founders",
       },
     ],
   },
   {
     step: 3,
     text: "What's been the main thing holding you back?",
-    sub: "Be honest — there's no wrong answer. This calibrates your personalised next step.",
+    sub: "Be honest, there's no wrong answer. This calibrates your personalised next step.",
     options: [
-      { value: 30, text: "Time — I'm too busy with work", sub: "Solvable. 10-15 hours/week is enough to test systematically." },
+      { value: 30, text: "Time: I'm too busy with work", sub: "Solvable. 10 to 15 hours/week is enough to test systematically." },
       {
         value: 25,
         text: "Fear of failure / reputation risk",
-        sub: "The most common block for high-performers. Addressable with the right structure.",
+        sub: "The most common block for high performers. Addressable with the right structure.",
       },
       {
         value: 20,
         text: "I'm not sure if the idea is good enough",
         sub: "That's not a feeling problem. It's a data problem. Stage 2 fixes it.",
       },
-      { value: 15, text: "All of the above", sub: "Honest answer — and exactly what Hobby is designed for" },
+      { value: 15, text: "All of the above", sub: "Honest answer, and exactly what Hobby is designed for" },
     ],
   },
   {
     step: 4,
     text: "How many hours per week can you realistically commit to this?",
-    sub: "Don't answer what you wish — answer what's actually possible right now.",
+    sub: "Don't answer what you wish, answer what's actually possible right now.",
     options: [
-      { value: 10, text: "Less than 5 hours", sub: "Possible but tight — we'll give you a priority-only plan" },
-      { value: 25, text: "5–10 hours", sub: "Workable — many Hobby members operate in this range" },
-      { value: 40, text: "10–15 hours", sub: "The sweet spot. Enough to run the full method in 90 days." },
+      { value: 10, text: "Less than 5 hours", sub: "Possible but tight, we'll give you a priority only plan" },
+      { value: 25, text: "5 to 10 hours", sub: "Workable, many Hobby members operate in this range" },
+      { value: 40, text: "10 to 15 hours", sub: "The sweet spot. Enough to run the full method in 90 days." },
       {
         value: 40,
         text: "15+ hours (recently transitioned / in transition)",
@@ -90,45 +90,45 @@ function getResults(score: number, name: string, email: string) {
       desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
         { icon: FaCircleCheck, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
-        { icon: FaCircleCheck, text: "You have the time and commitment to run a full 90-day validation sprint." },
+        { icon: FaCircleCheck, text: "You have the time and commitment to run a full 90 day validation sprint." },
         {
           icon: FaBolt,
-          text: "Your next step: Stop refining the idea and start Stage 2 — 10 customer conversations in 2 weeks.",
+          text: "Your next step: Stop refining the idea and start Stage 2: 10 customer conversations in 2 weeks.",
         },
       ],
-      ctaText: "Apply for the Next Cohort →",
-      ctaSub: `Your score and full breakdown has been sent to ${email}. Applications for Cohort 1 close soon — 5 seats remaining.`,
+      ctaText: "Apply for the Next Cohort",
+      ctaSub: `Your score and full breakdown has been sent to ${email}. Applications for Cohort 1 close soon, 5 seats remaining.`,
     }
   } else if (score >= 55) {
     return {
       label: tier,
-      title: "One or two things to sharpen — then you test.",
+      title: "One or two things to sharpen, then you test.",
       desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
         { icon: FaMapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
-        { icon: FaClock, text: "Time commitment is the limiting factor at your stage. We'll give you a priority-only plan." },
+        { icon: FaClock, text: "Time commitment is the limiting factor at your stage. We'll give you a priority only plan." },
         {
           icon: FaCircleCheck,
-          text: "Your next step: Join the free 75-min workshop — From Buried Idea to First Customer. Link in your inbox.",
+          text: "Your next step: Join the free 75 minute workshop: From Buried Idea to First Customer. Link in your inbox.",
         },
       ],
-      ctaText: "Reserve a Workshop Seat →",
-      ctaSub: `Full score breakdown sent to ${email}. Workshop details included — join before it fills.`,
+      ctaText: "Reserve a Workshop Seat",
+      ctaSub: `Full score breakdown sent to ${email}. Workshop details included, join before it fills.`,
     }
   } else {
     return {
       label: tier,
-      title: "The foundation needs work — that's exactly what we're here for.",
+      title: "The foundation needs work, that's exactly what we're here for.",
       desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
-        { icon: FaClock, text: "Download the free Idea Extraction Framework in your inbox — this is your first step." },
+        { icon: FaClock, text: "Download the free Idea Extraction Framework in your inbox, this is your first step." },
         { icon: FaMapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
         {
           icon: FaClock,
           text: "Your next step: complete the framework, then re-take this quiz in 2 weeks. You'll score higher.",
         },
       ],
-      ctaText: "Get the Free Framework →",
+      ctaText: "Get the Free Framework",
       ctaSub: `Your score breakdown + the free Idea Extraction Framework has been sent to ${email}.`,
     }
   }
@@ -220,7 +220,7 @@ export function QuizSection() {
     "Question 2 of 5",
     "Question 3 of 5",
     "Question 4 of 5",
-    "Almost done — enter your details",
+    "Almost done, enter your details",
   ]
 
   const results = showResults ? getResults(finalScore, formData.name, formData.email) : null
@@ -236,7 +236,7 @@ export function QuizSection() {
         </h2>
         <div className="w-11 h-[3px] bg-gold rounded-sm mx-auto my-[18px] mb-6" />
         <p className="text-[17px] text-muted-text leading-[1.8]">
-          5 questions. 90 seconds. Get a personalised score (0–100), your readiness label, and a specific next step —
+          5 questions. 90 seconds. Get a personalised score (0 to 100), your readiness label, and a specific next step,
           delivered to your inbox immediately.
         </p>
       </div>
@@ -298,7 +298,7 @@ export function QuizSection() {
                       onClick={handleBack}
                       className="bg-transparent border-none text-[13px] text-muted-text cursor-pointer p-0 transition-colors duration-200 hover:text-white"
                     >
-                      ← Back
+                      Back
                     </button>
                   ) : (
                     <span />
@@ -308,7 +308,7 @@ export function QuizSection() {
                     disabled={selectedOption === null}
                     className="bg-gold text-midnight border-none rounded-md px-7 py-3 text-sm font-bold cursor-pointer transition-all duration-200 hover:bg-gold-lt disabled:opacity-35 disabled:cursor-not-allowed"
                   >
-                    {currentStep === 4 ? "Get My Score →" : "Continue →"}
+                    {currentStep === 4 ? "Get My Score" : "Continue"}
                   </button>
                 </div>
               </>
@@ -318,7 +318,7 @@ export function QuizSection() {
                   Where should we send your Idea Readiness Score?
                 </div>
                 <div className="text-[13px] text-muted-text mb-8 leading-[1.6]">
-                  Your personalised score, readiness label, and specific next step — delivered immediately. No fluff, no
+                  Your personalised score, readiness label, and specific next step, delivered immediately. No fluff, no
                   spam. Unsubscribe any time.
                 </div>
 

@@ -6,15 +6,15 @@ import { FaChevronDown } from 'react-icons/fa6'
 const faqs = [
   {
     q: 'Is this for people with a fully formed idea, or can I come in earlier?',
-    a: 'You need a problem hypothesis — something you believe people have and would pay to solve. You don\'t need a product, a brand, or a pitch deck. We extract clarity in Stage 1.',
+    a: 'You need a problem hypothesis: something you believe people have and would pay to solve. You don\'t need a product, a brand, or a pitch deck. We extract clarity in Stage 1.',
   },
   {
     q: 'Do I need to quit my job to do this?',
-    a: 'No. This is specifically designed for people who are currently employed. 10–15 hours per week is sufficient to run the full program properly.',
+    a: 'No. This is specifically designed for people who are currently employed. 10 to 15 hours per week is sufficient to run the full program properly.',
   },
   {
     q: 'What if my idea doesn\'t work out?',
-    a: 'That\'s a valid outcome. By week 12 you\'ll have a data-backed decision — either a validated model or clear evidence to kill the idea quickly. Both results have real value.',
+    a: 'That\'s a valid outcome. By week 12 you\'ll have a data backed decision: either a validated model or clear evidence to kill the idea quickly. Both results have real value.',
   },
   {
     q: 'What does "0% equity" mean in practice?',
@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'Who runs the program?',
-    a: 'The Hobby Method is run by operators from the Falcon Accelerator family — people who\'ve built and scaled businesses. Not coaches, not academics.',
+    a: 'The Hobby Method is run by operators from the Falcon Accelerator family, people who\'ve built and scaled businesses. Not coaches, not academics.',
   },
   {
     q: 'What\'s the real difference between Core and Premium?',
