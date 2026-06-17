@@ -1,15 +1,27 @@
 'use client'
 
 import { useState } from 'react'
-import { FaBell } from 'react-icons/fa6'
+import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6'
 
 export function NewsletterSignup() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
+  const isEmailEmpty = email.trim().length === 0
+  const isSubscribed = message?.type === 'success'
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (isEmailEmpty) {
+      setMessage({
+        type: 'error',
+        text: 'Enter your email to subscribe.',
+      })
+      return
+    }
+
     setLoading(true)
     setMessage(null)
 
@@ -32,7 +44,7 @@ export function NewsletterSignup() {
 
       setMessage({
         type: 'success',
-        text: 'Successfully subscribed to our newsletter!',
+        text: 'You are subscribed to the Hobby Brief.',
       })
       setEmail('')
     } catch (error) {
@@ -45,27 +57,56 @@ export function NewsletterSignup() {
     }
   }
 
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2 md:gap-3 max-w-[500px] mx-auto w-full">
-      <div className="flex-1">
-        <input
-          type="email"
-          placeholder="you@company.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-cream placeholder-muted-text focus:outline-none focus:border-gold transition text-[15px]"
-        />
+  if (isSubscribed) {
+    return (
+      <div className="mx-auto w-full max-w-[520px] rounded-lg border border-green/25 bg-green/10 px-5 py-4 text-left md:text-center">
+        <div className="flex items-start justify-center gap-3">
+          <FaCircleCheck className="mt-0.5 flex-shrink-0 text-green" size={18} />
+          <div>
+            <p className="text-[15px] font-semibold text-cream">{message.text}</p>
+            <p className="mt-1 text-[13px] leading-[1.6] text-muted-text">
+              Check your inbox for the welcome email.
+            </p>
+          </div>
+        </div>
       </div>
-      <button
-        type="submit"
-        disabled={loading}
-        className="px-6 py-3 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 disabled:opacity-50 transition whitespace-nowrap text-[15px]"
-      >
-        Subscribe →
-      </button>
-      {message && (
-        <p className={`text-sm w-full ${message.type === 'success' ? 'text-green' : 'text-red'}`}>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-[540px]">
+      <div className="grid gap-3 md:grid-cols-[1fr_auto]">
+        <label className="sr-only" htmlFor="newsletter-email">
+          Email address
+        </label>
+        <div className="min-w-0">
+          <input
+            id="newsletter-email"
+            type="email"
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              if (message?.type === 'error') setMessage(null)
+            }}
+            required
+            aria-invalid={message?.type === 'error'}
+            aria-describedby={message?.type === 'error' ? 'newsletter-message' : undefined}
+            className="h-14 w-full rounded-lg border border-white/20 bg-white/10 px-4 text-[15px] text-cream placeholder:text-muted-text outline-none transition focus:border-gold focus:bg-white/[0.14] focus:ring-2 focus:ring-gold/20"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading || isEmailEmpty}
+          className="inline-flex h-14 items-center justify-center gap-2 rounded-lg bg-gold px-7 text-[15px] font-semibold text-midnight transition hover:bg-gold-lt disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-muted-text"
+        >
+          {loading ? 'Subscribing' : 'Subscribe'}
+          {!loading && <FaArrowRight size={14} />}
+        </button>
+      </div>
+
+      {message?.type === 'error' && (
+        <p id="newsletter-message" className="mt-3 text-center text-sm text-red">
           {message.text}
         </p>
       )}

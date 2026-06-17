@@ -61,6 +61,23 @@ function getSupabaseAdminKey() {
   }
 }
 
+async function getResendApiKey(supabase: ReturnType<typeof createClient>) {
+  const envKey = Deno.env.get("RESEND_API_KEY");
+
+  if (envKey) {
+    return envKey;
+  }
+
+  const { data, error } = await supabase.rpc("get_resend_api_key");
+
+  if (error) {
+    console.error("Resend key lookup error:", error);
+    return null;
+  }
+
+  return typeof data === "string" && data ? data : null;
+}
+
 const emailTemplate = (name: string) => `
 <!DOCTYPE html>
 <html lang="en">
@@ -133,18 +150,18 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({ error: "Supabase admin credentials are not configured" }, 500);
     }
 
-    const resendApiKey = Deno.env.get("RESEND_API_KEY");
-
-    if (!resendApiKey) {
-      return jsonResponse({ error: "RESEND_API_KEY is not configured" }, 500);
-    }
-
     const supabase = createClient(supabaseUrl, supabaseAdminKey, {
       auth: {
         persistSession: false,
         autoRefreshToken: false,
       },
     });
+
+    const resendApiKey = await getResendApiKey(supabase);
+
+    if (!resendApiKey) {
+      return jsonResponse({ error: "RESEND_API_KEY is not configured" }, 500);
+    }
 
     const { data: subscriber, error: insertError } = await supabase
       .from("newsletter_subscribers")
