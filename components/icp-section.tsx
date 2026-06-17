@@ -18,12 +18,12 @@ const noItems = [
   "Already launched and looking for growth support",
   "Looking for someone to do the work for you",
   "Expecting motivation or emotional support as the primary deliverable",
-  "Not willing to make and test decisions in real-time",
+  "Not willing to make and test decisions in real time",
 ]
 
 export function ICPSection() {
   return (
-    <section className="bg-navy px-[6%] py-[100px]" id="who">
+    <section className="bg-navy px-5 py-16 sm:px-[6%] sm:py-[100px]" id="who">
       <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">Who This Is For</p>
       <h2 className="font-serif text-[clamp(32px,4vw,52px)] font-bold leading-[1.15] mb-[18px] text-white">
         Built for the executive
@@ -33,7 +33,7 @@ export function ICPSection() {
       <div className="w-11 h-[3px] bg-gold rounded-sm my-[22px] mb-[38px]" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14">
-        <div className="bg-card-dark rounded-xl p-9 border border-green/20">
+        <div className="bg-card-dark rounded-lg p-5 sm:p-9 border border-green/20">
           <span className="inline-block px-3.5 py-1 rounded-full text-[11px] font-bold tracking-[1px] uppercase bg-green/10 text-green mb-6">
             This is built for you
           </span>
@@ -50,7 +50,7 @@ export function ICPSection() {
           </ul>
         </div>
 
-        <div className="bg-card-dark rounded-xl p-9 border border-border-white">
+        <div className="bg-card-dark rounded-lg p-5 sm:p-9 border border-border-white">
           <span className="inline-block px-3.5 py-1 rounded-full text-[11px] font-bold tracking-[1px] uppercase bg-white/5 text-muted-text mb-6">
             Not a fit right now
           </span>

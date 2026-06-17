@@ -45,7 +45,7 @@ const tierOptions = [
   {
     value: "elite",
     label: "Elite: $15,000",
-    sub: "Premium + weekly 1:1s + cofounder advisory + priority intro to Falcon network",
+    sub: "Premium + weekly 1:1 sessions + cofounder advisory + priority intro to Falcon network",
   },
   { value: "undecided", label: "Undecided: I'd like to discuss on the discovery call" },
 ]
@@ -53,7 +53,7 @@ const tierOptions = [
 const priorExperienceOptions = [
   { value: "never", label: "Never: this would be my first" },
   { value: "side_project", label: "Yes, side projects or freelance work" },
-  { value: "startup", label: "Yes, I've worked at or co-founded a startup" },
+  { value: "startup", label: "Yes, I've worked at or cofounded a startup" },
   { value: "exited", label: "Yes, I've built and exited a business" },
 ]
 
@@ -141,9 +141,9 @@ export default function ApplyPage() {
         </a>
       </nav>
 
-      <div className="bg-navy px-[5%] py-[60px] pb-14 text-center">
+      <div className="bg-navy px-5 py-14 pb-12 sm:px-[5%] sm:py-[60px] sm:pb-14 text-center">
         <div className="inline-block bg-gold/15 text-gold text-[11px] font-bold tracking-[0.14em] uppercase px-4 py-1.5 rounded-[20px] mb-5 border border-gold/30">
-          Cohort 1 · 8 Seats · Applications Open
+          Cohort 1 | 8 Seats | Applications Open
         </div>
         <h1 className="font-serif text-[clamp(32px,5vw,52px)] text-cream mb-3.5">Apply for Hobby</h1>
         <p className="text-[17px] text-cream/65 max-w-[520px] mx-auto font-light">
@@ -152,15 +152,15 @@ export default function ApplyPage() {
       </div>
 
       <div className="bg-navy border-y border-gold/20">
-        <div className="flex justify-center gap-12 px-[5%] py-4 flex-wrap">
-          <div className="text-xs text-gold font-semibold tracking-[0.06em]">10-Minute Application</div>
+        <div className="grid grid-cols-1 gap-3 px-5 py-4 text-center sm:grid-cols-2 lg:grid-cols-4 lg:gap-6 sm:px-[5%]">
+          <div className="text-xs text-gold font-semibold tracking-[0.06em]">10 Minute Application</div>
           <div className="text-xs text-gold font-semibold tracking-[0.06em]">Review Within 3 Business Days</div>
           <div className="text-xs text-gold font-semibold tracking-[0.06em]">Free Discovery Call If Selected</div>
           <div className="text-xs text-gold font-semibold tracking-[0.06em]">No Commitment To Apply</div>
         </div>
       </div>
 
-      <div className="max-w-[720px] mx-auto px-[5%] py-14 pb-20">
+      <div className="max-w-[1080px] mx-auto px-5 py-10 pb-16 sm:px-[5%] sm:py-14 sm:pb-20">
         <div className="flex gap-12 items-start">
           {/* Sidebar */}
           <aside className="w-[220px] flex-shrink-0 sticky top-20 hidden lg:block">
@@ -356,7 +356,7 @@ export default function ApplyPage() {
                     </label>
                     <textarea
                       name="idea_description"
-                      placeholder="E.g. A B2B SaaS tool that helps operations teams at mid-size companies automate their vendor onboarding process. Currently, this takes weeks manually and costs companies $30-50K/year in ops hours. I've seen this problem firsthand at three different companies and believe a lightweight tool could solve it."
+                      placeholder="E.g. A B2B SaaS tool that helps operations teams at mid sized companies automate their vendor onboarding process. Currently, this takes weeks manually and costs companies $30K to $50K/year in ops hours. I've seen this problem firsthand at three different companies and believe a lightweight tool could solve it."
                       value={formData.idea_description}
                       onChange={handleChange}
                       required
@@ -598,7 +598,7 @@ export default function ApplyPage() {
                     {commitments.map((item, index) => (
                       <li
                         key={index}
-                        className="text-[13px] text-cream/75 py-1.5 border-b border-white/10 last:border-b-0 flex items-start gap-2.5 before:content-['✓'] before:text-gold before:font-bold before:flex-shrink-0"
+                        className="text-[13px] text-cream/75 py-1.5 border-b border-white/10 last:border-b-0 flex items-start gap-2.5 before:content-['+'] before:text-gold before:font-bold before:flex-shrink-0"
                       >
                         {item}
                       </li>
@@ -635,9 +635,9 @@ export default function ApplyPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="bg-gold text-navy border-none text-base font-bold px-14 py-[18px] rounded-[5px] cursor-pointer font-sans transition-all duration-200 tracking-[0.02em] hover:translate-y-[-2px] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+                    className="w-full sm:w-auto bg-gold text-navy border-none text-base font-bold px-8 sm:px-14 py-[18px] rounded-[5px] cursor-pointer font-sans transition-all duration-200 tracking-[0.02em] hover:translate-y-[-2px] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                   >
-                    {submitting ? "Submitting..." : "Submit Application ->"}
+                    {submitting ? "Submitting..." : "Submit Application"}
                   </button>
                   <p className="text-xs text-muted-text mt-3">
                     You&apos;ll hear from us within 3 business days. If selected, we&apos;ll invite you to a free 30 minute
@@ -647,7 +647,7 @@ export default function ApplyPage() {
               </form>
             ) : (
               <div className="text-center py-[60px] px-6">
-                <div className="text-[52px] mb-5">✦</div>
+                <div className="text-[52px] mb-5 text-gold">*</div>
                 <h2 className="font-serif text-[32px] text-navy mb-3">Application received.</h2>
                 <p className="text-base text-muted-text max-w-[480px] mx-auto mb-6 leading-[1.7]">
                   Thank you for applying to Hobby Cohort 1. We review every application personally, you&apos;ll hear from
@@ -658,7 +658,7 @@ export default function ApplyPage() {
                   <br />
                   1. We review your application (1 to 3 days)
                   <br />
-                  2. If there&apos;s a fit, we invite you to a free 30-min discovery call
+                  2. If there&apos;s a fit, we invite you to a free 30 minute discovery call
                   <br />
                   3. On the call we confirm fit and answer your questions
                   <br />
@@ -672,7 +672,7 @@ export default function ApplyPage() {
 
       <footer className="bg-navy px-[5%] py-8 text-center">
         <div className="font-serif text-lg text-cream mb-2">HOBBY</div>
-        <div className="text-xs text-cream/35">© 2026 Hobby. A Falcon program. | hello@joinhobby.com</div>
+        <div className="text-xs text-cream/35">2026 Hobby. A Falcon program. | hello@joinhobby.com</div>
       </footer>
     </main>
   )

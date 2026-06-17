@@ -25,7 +25,7 @@ const stages = [
     name: "First Customer Sprint: Close before you build",
     week: "Weeks 7 to 8",
     desc: "The most counterintuitive stage. You try to close a paying customer before the product is fully built. If they pay, you build. If they don't, you learn. Either way, you win data.",
-    tags: ["Pre-Sell Sprint", "Sales Conversations", "First Revenue"],
+    tags: ["Pre Sell Sprint", "Sales Conversations", "First Revenue"],
   },
   {
     number: 5,
@@ -38,7 +38,7 @@ const stages = [
 
 export function MethodSection() {
   return (
-    <section className="bg-midnight px-[6%] py-[100px]" id="method">
+    <section className="bg-midnight px-5 py-16 sm:px-[6%] sm:py-[100px]" id="method">
       <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">The Hobby Method</p>
       <h2 className="font-serif text-[clamp(32px,4vw,52px)] font-bold leading-[1.15] mb-[18px] text-white">
         Five stages. 90 days.
@@ -55,12 +55,12 @@ export function MethodSection() {
         {stages.map((stage) => (
           <div
             key={stage.number}
-            className="grid grid-cols-1 md:grid-cols-[72px_1fr] bg-card-dark border border-border-white rounded-xl overflow-hidden transition-colors duration-200 hover:border-border-gold"
+            className="grid grid-cols-1 md:grid-cols-[72px_1fr] bg-card-dark border border-border-white rounded-lg overflow-hidden transition-colors duration-200 hover:border-border-gold"
           >
             <div className="bg-gold/[0.07] flex items-center justify-center text-[11px] font-extrabold tracking-[2px] text-gold uppercase py-6 md:py-0 md:writing-mode-vertical">
               <span className="md:[writing-mode:vertical-rl] md:rotate-180">Stage {stage.number}</span>
             </div>
-            <div className="p-6 px-7">
+            <div className="p-5 sm:p-6 sm:px-7">
               <div className="text-base font-bold text-cream mb-1">{stage.name}</div>
               <div className="text-[11px] text-gold font-semibold tracking-[1px] uppercase mb-2.5">{stage.week}</div>
               <div className="text-[13px] text-muted-text leading-[1.7]">{stage.desc}</div>

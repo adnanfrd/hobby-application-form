@@ -2,13 +2,8 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { FaCircleCheck, FaBolt, FaMapPin, FaClock, FaChevronDown } from "react-icons/fa6"
+import { FaCircleCheck, FaBolt, FaMapPin, FaClock } from "react-icons/fa6"
 import { invokeEdgeFunction } from "@/lib/supabase/functions"
-
-interface QuizAnswer {
-  step: number
-  value: number
-}
 
 const questions = [
   {
@@ -151,8 +146,6 @@ export function QuizSection() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const totalSteps = 5
-
   const handleSelectOption = (value: number) => {
     setSelectedOption(value)
     setAnswers((prev) => ({ ...prev, [currentStep]: value }))
@@ -213,8 +206,6 @@ export function QuizSection() {
     }
   }
 
-  const progressPercent = showResults ? 100 : ((currentStep - 1) / totalSteps) * 100
-
   const stepLabels = [
     "Question 1 of 5",
     "Question 2 of 5",
@@ -226,8 +217,8 @@ export function QuizSection() {
   const results = showResults ? getResults(finalScore, formData.name, formData.email) : null
 
   return (
-    <section className="bg-navy px-[6%] py-[100px]" id="quiz">
-      <div className="text-center max-w-[680px] mx-auto mb-16">
+    <section className="bg-navy px-5 py-16 sm:px-[6%] sm:py-[100px]" id="quiz">
+      <div className="text-center max-w-[680px] mx-auto mb-10 sm:mb-16">
         <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">
           Free Assessment
         </p>
@@ -241,16 +232,16 @@ export function QuizSection() {
         </p>
       </div>
 
-      <div className="max-w-[720px] mx-auto bg-card-dark border border-border-gold rounded-2xl overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
-        <div className="bg-gold/10 border-b border-border-gold px-9 py-6 flex items-center justify-between">
+      <div className="max-w-[720px] mx-auto bg-card-dark border border-border-gold rounded-lg overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
+        <div className="bg-gold/10 border-b border-border-gold px-5 py-5 sm:px-9 sm:py-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-[13px] font-bold text-gold tracking-[1px] uppercase">Idea Readiness Assessment</span>
           <span className="text-xs text-muted-text">
-            {showResults ? `Score: ${finalScore}/100 · ${results?.label}` : stepLabels[currentStep - 1]}
+            {showResults ? `Score: ${finalScore}/100 | ${results?.label}` : stepLabels[currentStep - 1]}
           </span>
         </div>
 
-        <div className="px-9 py-3 flex items-center gap-3 bg-white/[0.02] border-b border-white/5">
-          <span className="text-xs font-medium text-muted-text">Question {currentStep} of 5</span>
+        <div className="px-5 py-3 sm:px-9 flex items-center gap-3 bg-white/[0.02] border-b border-white/5">
+          <span className="text-xs font-medium text-muted-text">{showResults ? "Complete" : `Question ${currentStep} of 5`}</span>
           <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
             <div
               className="h-full bg-gold transition-all duration-400"
@@ -260,10 +251,10 @@ export function QuizSection() {
         </div>
 
         {!showResults ? (
-          <div className="p-11 px-10">
+          <div className="p-5 sm:p-8 lg:p-10">
             {currentStep <= 4 ? (
               <>
-                <div className="text-[22px] font-bold text-white leading-[1.4] mb-2.5">
+                <div className="text-[20px] sm:text-[22px] font-bold text-white leading-[1.4] mb-2.5">
                   {questions[currentStep - 1].text}
                 </div>
                 <div className="text-[13px] text-muted-text mb-8 leading-[1.6]">{questions[currentStep - 1].sub}</div>
@@ -273,7 +264,7 @@ export function QuizSection() {
                     <button
                       key={index}
                       onClick={() => handleSelectOption(option.value)}
-                      className={`flex items-start gap-4 bg-white/[0.03] border rounded-[10px] p-4 px-5 cursor-pointer transition-all duration-200 text-left w-full ${
+                      className={`flex items-start gap-4 bg-white/[0.03] border rounded-lg p-4 sm:px-5 cursor-pointer transition-all duration-200 text-left w-full ${
                         selectedOption === option.value
                           ? "border-gold bg-gold/10"
                           : "border-white/10 hover:border-gold/40 hover:bg-gold/5"
@@ -314,7 +305,7 @@ export function QuizSection() {
               </>
             ) : (
               <>
-                <div className="text-[22px] font-bold text-white leading-[1.4] mb-6">
+                <div className="text-[20px] sm:text-[22px] font-bold text-white leading-[1.4] mb-6">
                   Where should we send your Idea Readiness Score?
                 </div>
                 <div className="text-[13px] text-muted-text mb-8 leading-[1.6]">
@@ -368,7 +359,7 @@ export function QuizSection() {
                   </p>
                 )}
 
-                <div className="flex items-center justify-between mt-9">
+                <div className="flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between mt-9">
                   <button
                     onClick={handleBack}
                     className="bg-transparent border-none text-[13px] text-muted-text cursor-pointer p-0 transition-colors duration-200 hover:text-white"
@@ -378,16 +369,16 @@ export function QuizSection() {
                   <button
                     onClick={handleSubmit}
                     disabled={submitting}
-                    className="bg-gold text-midnight border-none rounded-md px-8 py-3.5 text-[15px] font-bold cursor-pointer transition-colors duration-200 hover:bg-gold-lt disabled:cursor-not-allowed disabled:opacity-60"
+                    className="w-full sm:w-auto bg-gold text-midnight border-none rounded-md px-8 py-3.5 text-[15px] font-bold cursor-pointer transition-colors duration-200 hover:bg-gold-lt disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {submitting ? "Saving..." : "Get My Score ->"}
+                    {submitting ? "Saving..." : "Get My Score"}
                   </button>
                 </div>
               </>
             )}
           </div>
         ) : (
-          <div className="p-11 px-10">
+          <div className="p-5 sm:p-8 lg:p-10">
             <div className="text-center mb-10">
               <div className="font-serif text-[clamp(52px,8vw,72px)] font-black text-gold leading-none mb-2">
                 {finalScore} <span className="text-[42px] text-muted-text font-serif">/100</span>

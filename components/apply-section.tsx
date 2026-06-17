@@ -9,7 +9,7 @@ const steps = [
 
 export function ApplySection() {
   return (
-    <section className="bg-navy text-center px-[6%] py-[120px]" id="apply">
+    <section className="bg-navy text-center px-5 py-16 sm:px-[6%] sm:py-[120px]" id="apply">
       <div className="max-w-[680px] mx-auto">
         <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">
           Applications Open
@@ -19,12 +19,12 @@ export function ApplySection() {
           <br />
           waiting long enough.
         </h2>
-        <p className="text-lg text-muted-text leading-[1.7] mb-14">
+        <p className="text-[16px] sm:text-lg text-muted-text leading-[1.7] mb-10 sm:mb-14">
           Cohort 1 is limited to 8 founding executives. We keep it small so every person gets real operator time, not a
           seat in a lecture hall.
         </p>
 
-        <div className="inline-flex items-center gap-3 bg-gold/[0.08] border border-border-gold rounded-full px-5 py-2 text-xs text-gold font-semibold mb-7">
+        <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-3 bg-gold/[0.08] border border-border-gold rounded-full px-5 py-2 text-xs text-gold font-semibold mb-7">
           <div className="flex gap-1">
             {[1, 2, 3].map((i) => (
               <div key={i} className="w-2 h-2 rounded-full bg-gold" />
@@ -33,7 +33,7 @@ export function ApplySection() {
               <div key={i} className="w-2 h-2 rounded-full bg-gold/20" />
             ))}
           </div>
-          3 of 8 seats filled · Applications close soon
+          3 of 8 seats filled | Applications close soon
         </div>
 
         <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-0 mb-14 relative">
@@ -51,7 +51,7 @@ export function ApplySection() {
         <div className="flex flex-col items-center gap-4">
           <Link
             href="#quiz"
-            className="bg-gold text-midnight font-bold text-base px-12 py-[18px] rounded-md no-underline transition-colors duration-200 hover:bg-gold-lt"
+            className="w-full sm:w-auto bg-gold text-midnight font-bold text-base px-10 sm:px-12 py-[18px] rounded-md no-underline transition-colors duration-200 hover:bg-gold-lt"
           >
             Start With the Quiz
           </Link>

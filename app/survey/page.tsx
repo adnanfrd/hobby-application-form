@@ -12,9 +12,9 @@ export default function SurveyPage() {
     <main className="bg-midnight min-h-screen flex flex-col">
       <Navigation />
       
-      <section className="flex-1 px-[6%] py-[80px]">
+      <section className="flex-1 px-5 pb-16 pt-28 sm:px-[6%] sm:pb-20 sm:pt-32">
         <div className="max-w-2xl mx-auto">
-          <div className="mb-10">
+          <div className="mb-8 sm:mb-10">
             <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">Help Us Understand</p>
             <h1 className="font-serif text-[clamp(32px,4vw,52px)] font-bold leading-[1.15] mb-[18px] text-white">
               Share your side project journey

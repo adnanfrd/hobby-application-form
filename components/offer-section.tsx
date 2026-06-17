@@ -25,7 +25,7 @@ const tiers = [
     featured: true,
     features: [
       { text: "Everything in Core", enabled: true },
-      { text: "4× 1:1 advisory sessions (60 min each)", enabled: true },
+      { text: "4 x 1:1 advisory sessions (60 min each)", enabled: true },
       { text: "Personal offer review and pricing audit", enabled: true },
       { text: "Direct async access between sessions", enabled: true },
       { text: "Priority review of discovery call recordings", enabled: true },
@@ -45,14 +45,14 @@ const tiers = [
       { text: "Infrastructure setup assessment (CRM, funnel, email)", enabled: true },
       { text: "Pathway to operational investment for qualified graduates", enabled: true },
       { text: "Warm introductions to relevant investors and operators", enabled: true },
-      { text: "Post-program advisory retainer option", enabled: true },
+      { text: "Post program advisory retainer option", enabled: true },
     ],
   },
 ]
 
 export function OfferSection() {
   return (
-    <section className="bg-midnight px-[6%] py-[100px]" id="offer">
+    <section className="bg-midnight px-5 py-16 sm:px-[6%] sm:py-[100px]" id="offer">
       <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">The Program</p>
       <h2 className="font-serif text-[clamp(32px,4vw,52px)] font-bold leading-[1.15] mb-[18px] text-white">
         Three ways to engage.
@@ -69,7 +69,7 @@ export function OfferSection() {
         {tiers.map((tier) => (
           <div
             key={tier.name}
-            className={`bg-card-dark border rounded-[14px] p-9 px-7 flex flex-col transition-colors duration-200 relative ${
+            className={`bg-card-dark border rounded-lg p-6 sm:p-7 flex flex-col transition-colors duration-200 relative ${
               tier.featured
                 ? "border-gold border-[1.5px] bg-gradient-to-br from-gold/[0.06] to-card-dark"
                 : "border-border-white"
@@ -90,10 +90,10 @@ export function OfferSection() {
                   key={index}
                   className={`text-[13px] pl-[22px] relative leading-[1.5] before:absolute before:left-0 before:text-[11px] before:top-0.5 ${
                     feature.enabled
-                      ? "text-cream before:content-['•'] before:text-gold"
+                      ? "text-cream before:content-['+'] before:text-gold"
                       : feature.locked
                       ? "text-white/40 line-through before:content-none"
-                      : "text-muted-text before:text-white/20 before:content-['•']"
+                      : "text-muted-text before:text-white/20 before:content-['+']"
                   }`}
                 >
                   {feature.locked && <FaLock className="absolute left-0 top-0.5 w-3 h-3 mr-2" />}

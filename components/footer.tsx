@@ -80,7 +80,7 @@ export function BottomBar() {
     <div className="bg-midnight border-t border-border-white/30 px-[6%] py-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 text-xs text-white/60 items-center justify-center md:justify-start">
-          <span>© 2026 Hobby · A Falcon Accelerator Company</span>
+          <span>2026 Hobby | A Falcon Accelerator Company</span>
           <a href="mailto:hello@hobbyaccelerator.com" className="text-white/60 no-underline hover:text-white transition-colors">
             hello@hobbyaccelerator.com
           </a>

@@ -46,8 +46,8 @@ export function NewsletterSignup() {
 
   if (isSubscribed) {
     return (
-      <div className="mx-auto w-full max-w-[520px] rounded-lg border border-green/25 bg-green/10 px-5 py-4 text-left md:text-center">
-        <div className="flex items-start justify-center gap-3">
+      <div className="mx-auto w-full max-w-[520px] rounded-lg border border-green/25 bg-green/10 px-5 py-4 text-left sm:text-center">
+        <div className="flex items-start gap-3 sm:justify-center">
           <FaCircleCheck className="mt-0.5 flex-shrink-0 text-green" size={18} />
           <div>
             <p className="text-[15px] font-semibold text-cream">{message.text}</p>
@@ -84,7 +84,7 @@ export function NewsletterSignup() {
         </div>
         <button
           type="submit"
-          disabled={loading || isEmailEmpty}
+          disabled={loading}
           className="inline-flex h-14 items-center justify-center gap-2 rounded-lg bg-gold px-7 text-[15px] font-semibold text-midnight transition hover:bg-gold-lt disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-muted-text"
         >
           {loading ? 'Subscribing' : 'Subscribe'}

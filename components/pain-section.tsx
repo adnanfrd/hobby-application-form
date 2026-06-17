@@ -32,7 +32,7 @@ const painPoints = [
 
 export function PainSection() {
   return (
-    <section className="px-[6%] py-[100px] md:py-[100px] bg-midnight">
+    <section className="px-5 py-16 sm:px-[6%] sm:py-[100px] bg-midnight">
       <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">The Problem</p>
       <h2 className="font-serif text-[clamp(32px,4vw,52px)] font-bold leading-[1.15] mb-[18px] text-white">
         You&apos;ve had the idea for years.
@@ -45,13 +45,13 @@ export function PainSection() {
         is you&apos;ve been applying the wrong framework to your own idea.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-14">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10 sm:mt-14">
         {painPoints.map((point, index) => {
           const IconComponent = point.icon
           return (
           <div
             key={index}
-            className={`bg-card-dark border rounded-xl p-8 ${
+            className={`bg-card-dark border rounded-lg p-5 sm:p-8 ${
               point.highlight ? "border-border-gold" : "border-border-white"
             }`}
           >
@@ -64,7 +64,7 @@ export function PainSection() {
         )
         })}
 
-        <div className="col-span-1 md:col-span-2 bg-card-dark border-l-[3px] border-l-gold rounded-r-xl p-7 px-9">
+        <div className="col-span-1 md:col-span-2 bg-card-dark border-l-[3px] border-l-gold rounded-r-lg p-5 sm:p-7 sm:px-9">
           <blockquote className="font-serif text-lg italic text-cream leading-[1.65]">
             &quot;I&apos;ve shipped products used by 200 million people. But I can&apos;t figure out how to get 10
             people to pay me for something I built myself.&quot;

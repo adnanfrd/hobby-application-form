@@ -66,12 +66,12 @@ export function SurveyForm() {
 
   if (submitted) {
     return (
-      <div className="bg-card-dark rounded-xl border border-green/20 p-8 text-center">
+      <div className="bg-card-dark rounded-lg border border-green/20 p-5 sm:p-8 text-center">
         <h3 className="text-2xl font-bold text-green mb-2">Thank you!</h3>
         <p className="text-cream mb-4">We&apos;ve received your survey response and will review it shortly.</p>
         <button
           onClick={() => setSubmitted(false)}
-          className="px-6 py-2 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 transition"
+          className="w-full sm:w-auto px-6 py-2 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 transition"
         >
           Submit Another Response
         </button>
@@ -80,7 +80,7 @@ export function SurveyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-card-dark rounded-xl border border-border-white p-8 space-y-6">
+    <form onSubmit={handleSubmit} className="bg-card-dark rounded-lg border border-border-white p-5 sm:p-8 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Email */}
         <div>

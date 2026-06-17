@@ -34,7 +34,7 @@ export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <section className="bg-midnight px-[6%] py-[100px]">
+    <section className="bg-midnight px-5 py-16 sm:px-[6%] sm:py-[100px]">
       <div className="max-w-[720px] mx-auto">
         <p className="inline-block text-[11px] font-bold tracking-[3px] uppercase text-gold mb-[18px]">
           Common Questions
@@ -46,12 +46,13 @@ export function FaqSection() {
 
         <div className="space-y-0 divide-y divide-border-white">
           {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="py-5 cursor-pointer transition-colors hover:bg-white/[0.02]"
-              onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            >
-              <div className="flex items-start justify-between gap-4">
+            <div key={index} className="py-5 transition-colors hover:bg-white/[0.02] focus-within:bg-white/[0.02]">
+              <button
+                type="button"
+                className="flex w-full cursor-pointer items-start justify-between gap-4 bg-transparent p-0 text-left"
+                aria-expanded={openIndex === index}
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+              >
                 <h3 className="text-[16px] font-medium text-white leading-[1.5] flex-1">
                   {faq.q}
                 </h3>
@@ -61,7 +62,7 @@ export function FaqSection() {
                   }`}
                   size={16}
                 />
-              </div>
+              </button>
 
               {openIndex === index && (
                 <div
