@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { FaLock } from "react-icons/fa6"
+import { Lock } from "lucide-react"
 
 const tiers = [
   {
@@ -96,7 +96,7 @@ export function OfferSection() {
                       : "text-muted-text before:text-white/20 before:content-['+']"
                   }`}
                 >
-                  {feature.locked && <FaLock className="absolute left-0 top-0.5 w-3 h-3 mr-2" />}
+                  {feature.locked && <Lock className="absolute left-0 top-0.5 w-3 h-3 mr-2" />}
                   {feature.text}
                   {feature.locked && <span className="text-[11px] text-muted-text ml-1">(Elite only)</span>}
                 </li>

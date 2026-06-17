@@ -1,8 +1,31 @@
 'use client'
 
 import { useState } from 'react'
-import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6'
+import { ArrowRight, CheckCircle2, LoaderCircle } from 'lucide-react'
 import { invokeEdgeFunction } from '@/lib/supabase/functions'
+
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function getNewsletterErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : ''
+  const lowerMessage = message.toLowerCase()
+
+  if (lowerMessage.includes('already') || lowerMessage.includes('duplicate')) {
+    return 'This email is already subscribed. You are good to go.'
+  }
+
+  if (lowerMessage.includes('invalid') || lowerMessage.includes('email')) {
+    return 'That email address does not look right. Please check it and try again.'
+  }
+
+  if (lowerMessage.includes('failed to fetch') || lowerMessage.includes('network')) {
+    return 'We could not reach the newsletter service. Please check your connection and try again.'
+  }
+
+  return message || 'Something went wrong while subscribing. Please try again.'
+}
 
 export function NewsletterSignup() {
   const [email, setEmail] = useState('')
@@ -15,10 +38,20 @@ export function NewsletterSignup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (isEmailEmpty) {
+    const trimmedEmail = email.trim()
+
+    if (!trimmedEmail) {
       setMessage({
         type: 'error',
         text: 'Enter your email to subscribe.',
+      })
+      return
+    }
+
+    if (!isValidEmail(trimmedEmail)) {
+      setMessage({
+        type: 'error',
+        text: 'Enter a valid email address, for example you@company.com.',
       })
       return
     }
@@ -27,7 +60,7 @@ export function NewsletterSignup() {
     setMessage(null)
 
     try {
-      await invokeEdgeFunction('send-newsletter-email', { email })
+      await invokeEdgeFunction('send-newsletter-email', { email: trimmedEmail })
 
       setMessage({
         type: 'success',
@@ -37,7 +70,7 @@ export function NewsletterSignup() {
     } catch (error) {
       setMessage({
         type: 'error',
-        text: error instanceof Error ? error.message : 'An error occurred. Please try again.',
+        text: getNewsletterErrorMessage(error),
       })
     } finally {
       setLoading(false)
@@ -48,7 +81,7 @@ export function NewsletterSignup() {
     return (
       <div className="mx-auto w-full max-w-[520px] rounded-lg border border-green/25 bg-green/10 px-5 py-4 text-left sm:text-center">
         <div className="flex items-start gap-3 sm:justify-center">
-          <FaCircleCheck className="mt-0.5 flex-shrink-0 text-green" size={18} />
+          <CheckCircle2 className="mt-0.5 flex-shrink-0 text-green" size={18} />
           <div>
             <p className="text-[15px] font-semibold text-cream">{message.text}</p>
             <p className="mt-1 text-[13px] leading-[1.6] text-muted-text">
@@ -88,7 +121,7 @@ export function NewsletterSignup() {
           className="inline-flex h-14 items-center justify-center gap-2 rounded-lg bg-gold px-7 text-[15px] font-semibold text-midnight transition hover:bg-gold-lt disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-muted-text"
         >
           {loading ? 'Subscribing' : 'Subscribe'}
-          {!loading && <FaArrowRight size={14} />}
+          {loading ? <LoaderCircle className="animate-spin" size={16} /> : <ArrowRight size={14} />}
         </button>
       </div>
 

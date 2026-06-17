@@ -1,29 +1,29 @@
 'use client'
 
-import { FaClock, FaBullseye, FaLock, FaChartBar } from 'react-icons/fa6'
+import { BarChart3, Clock, Lock, Target } from 'lucide-react'
 
 const painPoints = [
   {
-    icon: FaClock,
+    icon: Clock,
     title: 'The "one day" loop',
     description:
       'Year 1: "When things slow down." Year 3: "When I have more saved." Year 5: "Maybe it wasn\'t meant to be." The idea didn\'t die. It got postponed indefinitely.',
     highlight: true,
   },
   {
-    icon: FaBullseye,
+    icon: Target,
     title: "No system, just pressure",
     description:
       "You know how to build at scale. But no one ever gave you the framework for applying your skills to your own idea, without blowing up your career to do it.",
   },
   {
-    icon: FaLock,
+    icon: Lock,
     title: "Reputation risk paralysis",
     description:
       'You can\'t afford to fail publicly. The people who respect your professional track record, they\'ll see it. So you wait until it\'s "ready." It never is.',
   },
   {
-    icon: FaChartBar,
+    icon: BarChart3,
     title: '"I don\'t know if it\'s good enough"',
     description:
       "That's not a feeling problem. It's a data problem. You haven't had a structured way to test it without betting the whole thing on one launch.",

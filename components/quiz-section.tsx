@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Link from "next/link"
-import { FaCircleCheck, FaBolt, FaMapPin, FaClock } from "react-icons/fa6"
+import { Bolt, CheckCircle2, Clock, LoaderCircle, MapPin } from "lucide-react"
 import { invokeEdgeFunction } from "@/lib/supabase/functions"
 
 const questions = [
@@ -72,6 +72,12 @@ const questions = [
   },
 ]
 
+type QuizFieldErrors = Partial<Record<"name" | "email", string>>
+
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
 function getResults(score: number, name: string, email: string) {
   let tier = "Not Yet"
   if (score >= 80) tier = "Idea Ready"
@@ -84,10 +90,10 @@ function getResults(score: number, name: string, email: string) {
       title: "You're closer than you think.",
       desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
-        { icon: FaCircleCheck, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
-        { icon: FaCircleCheck, text: "You have the time and commitment to run a full 90 day validation sprint." },
+        { icon: CheckCircle2, text: "Your ICP definition is strong enough to start discovery conversations immediately." },
+        { icon: CheckCircle2, text: "You have the time and commitment to run a full 90 day validation sprint." },
         {
-          icon: FaBolt,
+          icon: Bolt,
           text: "Your next step: Stop refining the idea and start Stage 2: 10 customer conversations in 2 weeks.",
         },
       ],
@@ -100,10 +106,10 @@ function getResults(score: number, name: string, email: string) {
       title: "One or two things to sharpen, then you test.",
       desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
-        { icon: FaMapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
-        { icon: FaClock, text: "Time commitment is the limiting factor at your stage. We'll give you a priority only plan." },
+        { icon: MapPin, text: "ICP definition likely needs sharpening. Vague customers = vague results." },
+        { icon: Clock, text: "Time commitment is the limiting factor at your stage. We'll give you a priority only plan." },
         {
-          icon: FaCircleCheck,
+          icon: CheckCircle2,
           text: "Your next step: Join the free 75 minute workshop: From Buried Idea to First Customer. Link in your inbox.",
         },
       ],
@@ -116,10 +122,10 @@ function getResults(score: number, name: string, email: string) {
       title: "The foundation needs work, that's exactly what we're here for.",
       desc: `You've done the thinking. Now it's time to do the testing. Hobby is built for where you are.`,
       insights: [
-        { icon: FaClock, text: "Download the free Idea Extraction Framework in your inbox, this is your first step." },
-        { icon: FaMapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
+        { icon: Clock, text: "Download the free Idea Extraction Framework in your inbox, this is your first step." },
+        { icon: MapPin, text: "ICP definition needs to come before any testing. We'll walk you through it." },
         {
-          icon: FaClock,
+          icon: Clock,
           text: "Your next step: complete the framework, then re-take this quiz in 2 weeks. You'll score higher.",
         },
       ],
@@ -137,6 +143,7 @@ function getReadinessLabel(score: number) {
 }
 
 export function QuizSection() {
+  const detailsRef = useRef<HTMLDivElement>(null)
   const [currentStep, setCurrentStep] = useState(1)
   const [answers, setAnswers] = useState<Record<number, number>>({})
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
@@ -145,6 +152,7 @@ export function QuizSection() {
   const [finalScore, setFinalScore] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<QuizFieldErrors>({})
 
   const handleSelectOption = (value: number) => {
     setSelectedOption(value)
@@ -166,8 +174,21 @@ export function QuizSection() {
   }
 
   const handleSubmit = async () => {
-    if (!formData.name || !formData.email) {
-      setSubmitError("Please enter your name and email to receive your score.")
+    const errors: QuizFieldErrors = {}
+    const email = formData.email.trim()
+    const name = formData.name.trim()
+
+    if (!name) errors.name = "First name is required."
+    if (!email) errors.email = "Work email is required."
+    else if (!isValidEmail(email)) errors.email = "Enter a valid work email."
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors)
+      setSubmitError(null)
+      const firstField = Object.keys(errors)[0]
+      const element = detailsRef.current?.querySelector<HTMLElement>(`[data-field="${firstField}"]`)
+      element?.focus()
+      element?.scrollIntoView({ behavior: "smooth", block: "center" })
       return
     }
 
@@ -192,6 +213,8 @@ export function QuizSection() {
     try {
       await invokeEdgeFunction("submit-quiz", {
         ...formData,
+        name,
+        email,
         answers: answerDetails,
         score: total,
         readinessLabel,
@@ -313,26 +336,44 @@ export function QuizSection() {
                   spam. Unsubscribe any time.
                 </div>
 
-                <div className="flex flex-col gap-3.5">
+                <div ref={detailsRef} className="flex flex-col gap-3.5">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs text-muted-text font-medium tracking-[0.5px] uppercase">First Name</label>
                     <input
+                      data-field="name"
                       type="text"
                       value={formData.name}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) => {
+                        setFormData((prev) => ({ ...prev, name: e.target.value }))
+                        setFieldErrors((prev) => ({ ...prev, name: undefined }))
+                      }}
                       placeholder="Your first name"
-                      className="bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-white text-[15px] font-sans outline-none transition-colors duration-200 focus:border-gold placeholder:text-white/20"
+                      aria-invalid={Boolean(fieldErrors.name)}
+                      aria-describedby={fieldErrors.name ? "quiz-name-error" : undefined}
+                      className={`bg-white/[0.04] border rounded-lg px-4 py-3 text-white text-[15px] font-sans outline-none transition-colors duration-200 focus:border-gold placeholder:text-white/20 ${
+                        fieldErrors.name ? "border-red/70 bg-red/10" : "border-white/10"
+                      }`}
                     />
+                    {fieldErrors.name && <p id="quiz-name-error" className="text-xs text-red">{fieldErrors.name}</p>}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs text-muted-text font-medium tracking-[0.5px] uppercase">Work Email</label>
                     <input
+                      data-field="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                      onChange={(e) => {
+                        setFormData((prev) => ({ ...prev, email: e.target.value }))
+                        setFieldErrors((prev) => ({ ...prev, email: undefined }))
+                      }}
                       placeholder="you@company.com"
-                      className="bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-white text-[15px] font-sans outline-none transition-colors duration-200 focus:border-gold placeholder:text-white/20"
+                      aria-invalid={Boolean(fieldErrors.email)}
+                      aria-describedby={fieldErrors.email ? "quiz-email-error" : undefined}
+                      className={`bg-white/[0.04] border rounded-lg px-4 py-3 text-white text-[15px] font-sans outline-none transition-colors duration-200 focus:border-gold placeholder:text-white/20 ${
+                        fieldErrors.email ? "border-red/70 bg-red/10" : "border-white/10"
+                      }`}
                     />
+                    {fieldErrors.email && <p id="quiz-email-error" className="text-xs text-red">{fieldErrors.email}</p>}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs text-muted-text font-medium tracking-[0.5px] uppercase">
@@ -371,7 +412,10 @@ export function QuizSection() {
                     disabled={submitting}
                     className="w-full sm:w-auto bg-gold text-midnight border-none rounded-md px-8 py-3.5 text-[15px] font-bold cursor-pointer transition-colors duration-200 hover:bg-gold-lt disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {submitting ? "Saving..." : "Get My Score"}
+                    <span className="inline-flex items-center justify-center gap-2">
+                      {submitting ? "Saving" : "Get My Score"}
+                      {submitting && <LoaderCircle className="animate-spin" size={17} />}
+                    </span>
                   </button>
                 </div>
               </>

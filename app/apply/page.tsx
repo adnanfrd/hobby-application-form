@@ -1,8 +1,98 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { CheckCircle2, Clock3, LoaderCircle, ShieldCheck, UserCheck } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { invokeEdgeFunction } from "@/lib/supabase/functions"
+
+interface ApplicationFormData {
+  first_name: string
+  last_name: string
+  email: string
+  linkedin: string
+  job_title: string
+  company: string
+  experience: string
+  idea_description: string
+  idea_age: string
+  unfair_advantage: string
+  blocker: string
+  outcome: string
+  hours_per_week: string
+  tier: string
+  prior_experience: string
+  anything_else: string
+  referral_source: string
+  commitment_confirmed: boolean
+}
+
+type ApplicationField = keyof ApplicationFormData
+type ApplicationErrors = Partial<Record<ApplicationField, string>>
+
+const initialApplicationFormData: ApplicationFormData = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  linkedin: "",
+  job_title: "",
+  company: "",
+  experience: "",
+  idea_description: "",
+  idea_age: "",
+  unfair_advantage: "",
+  blocker: "",
+  outcome: "",
+  hours_per_week: "",
+  tier: "",
+  prior_experience: "",
+  anything_else: "",
+  referral_source: "",
+  commitment_confirmed: false,
+}
+
+const requiredFields: ApplicationField[] = [
+  "first_name",
+  "last_name",
+  "email",
+  "linkedin",
+  "job_title",
+  "company",
+  "experience",
+  "idea_description",
+  "idea_age",
+  "unfair_advantage",
+  "blocker",
+  "outcome",
+  "hours_per_week",
+  "tier",
+  "prior_experience",
+  "referral_source",
+  "commitment_confirmed",
+]
+
+const formSections = [
+  { label: "About You", fields: ["first_name", "last_name", "email", "linkedin", "job_title", "company", "experience"] },
+  { label: "Idea", fields: ["idea_description", "idea_age", "unfair_advantage", "blocker"] },
+  { label: "Readiness", fields: ["outcome", "hours_per_week", "tier", "prior_experience"] },
+  { label: "Final", fields: ["referral_source", "commitment_confirmed"] },
+] as const
+
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function isValidUrl(value: string) {
+  try {
+    const url = new URL(value)
+    return url.protocol === "http:" || url.protocol === "https:"
+  } catch {
+    return false
+  }
+}
+
+function isCompleteValue(value: ApplicationFormData[ApplicationField]) {
+  return typeof value === "boolean" ? value : value.trim().length > 0
+}
 
 const experienceOptions = [
   { value: "3-5", label: "3 to 5 years" },
@@ -74,32 +164,24 @@ const commitments = [
 ]
 
 export default function ApplyPage() {
+  const formRef = useRef<HTMLFormElement>(null)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    linkedin: "",
-    job_title: "",
-    company: "",
-    experience: "",
-    idea_description: "",
-    idea_age: "",
-    unfair_advantage: "",
-    blocker: "",
-    outcome: "",
-    hours_per_week: "",
-    tier: "",
-    prior_experience: "",
-    anything_else: "",
-    referral_source: "",
-    commitment_confirmed: false,
-  })
+  const [formData, setFormData] = useState<ApplicationFormData>(initialApplicationFormData)
+  const [fieldErrors, setFieldErrors] = useState<ApplicationErrors>({})
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    const errors = validateForm()
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors)
+      setSubmitError("Please fix the highlighted fields before submitting.")
+      focusFirstError(errors)
+      return
+    }
+
     setSubmitting(true)
     setSubmitError(null)
 
@@ -121,14 +203,61 @@ export default function ApplyPage() {
       ...prev,
       [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     }))
+    setFieldErrors((prev) => ({ ...prev, [name]: undefined }))
   }
 
-  const inputStyles =
-    "w-full px-4 py-3 border-2 border-[#DDD8D0] rounded-md text-[15px] font-sans text-navy bg-white transition-colors duration-200 outline-none focus:border-navy placeholder:text-[#B0A898]"
-  const selectStyles =
-    "w-full px-4 py-3 border-2 border-[#DDD8D0] rounded-md text-[15px] font-sans text-navy bg-white transition-colors duration-200 outline-none focus:border-navy appearance-none bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%20viewBox%3D%220%200%2012%208%22%3E%3Cpath%20fill%3D%22%230D1B2A%22%20d%3D%22M6%208L0%200h12z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[right_14px_center] pr-9"
-  const textareaStyles =
-    "w-full px-4 py-3 border-2 border-[#DDD8D0] rounded-md text-[15px] font-sans text-navy bg-white transition-colors duration-200 outline-none focus:border-navy resize-y min-h-[110px] leading-[1.6] placeholder:text-[#B0A898]"
+  const validateForm = () => {
+    const errors: ApplicationErrors = {}
+
+    requiredFields.forEach((field) => {
+      if (!isCompleteValue(formData[field])) {
+        errors[field] = field === "commitment_confirmed" ? "Please confirm your commitment." : "This field is required."
+      }
+    })
+
+    if (formData.email.trim() && !isValidEmail(formData.email.trim())) {
+      errors.email = "Enter a valid email address."
+    }
+
+    if (formData.linkedin.trim() && !isValidUrl(formData.linkedin.trim())) {
+      errors.linkedin = "Enter a valid LinkedIn URL starting with https://."
+    }
+
+    return errors
+  }
+
+  const focusFirstError = (errors: ApplicationErrors) => {
+    const firstField = Object.keys(errors)[0]
+    const element = formRef.current?.querySelector<HTMLElement>(`[name="${firstField}"]`)
+    element?.focus()
+    element?.scrollIntoView({ behavior: "smooth", block: "center" })
+  }
+
+  const completedRequiredFields = requiredFields.filter((field) => isCompleteValue(formData[field])).length
+  const progressPercent = Math.round((completedRequiredFields / requiredFields.length) * 100)
+
+  const getInputStyles = (name: ApplicationField) =>
+    `w-full px-4 py-3 border-2 rounded-md text-[15px] font-sans text-navy bg-white transition-colors duration-200 outline-none focus:border-navy placeholder:text-[#B0A898] ${
+      fieldErrors[name] ? "border-error bg-error/5" : "border-[#DDD8D0]"
+    }`
+
+  const getSelectStyles = (name: ApplicationField) =>
+    `w-full px-4 py-3 border-2 rounded-md text-[15px] font-sans text-navy bg-white transition-colors duration-200 outline-none focus:border-navy appearance-none bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%20viewBox%3D%220%200%2012%208%22%3E%3Cpath%20fill%3D%22%230D1B2A%22%20d%3D%22M6%208L0%200h12z%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[right_14px_center] pr-9 ${
+      fieldErrors[name] ? "border-error bg-error/5" : "border-[#DDD8D0]"
+    }`
+
+  const getTextareaStyles = (name: ApplicationField) =>
+    `w-full px-4 py-3 border-2 rounded-md text-[15px] font-sans text-navy bg-white transition-colors duration-200 outline-none focus:border-navy resize-y min-h-[110px] leading-[1.6] placeholder:text-[#B0A898] ${
+      fieldErrors[name] ? "border-error bg-error/5" : "border-[#DDD8D0]"
+    }`
+
+  const getChoiceStyles = (name: ApplicationField, selected: boolean) =>
+    `flex items-start gap-3 bg-white border-2 rounded-lg p-3.5 px-4 cursor-pointer transition-all duration-200 ${
+      selected ? "border-navy bg-navy/[0.02]" : fieldErrors[name] ? "border-error bg-error/5" : "border-[#DDD8D0] hover:border-navy hover:bg-navy/[0.02]"
+    }`
+
+  const renderFieldError = (name: ApplicationField) =>
+    fieldErrors[name] ? <p className="mt-2 text-xs font-medium text-error">{fieldErrors[name]}</p> : null
 
   return (
     <main className="bg-cream min-h-screen">
@@ -208,7 +337,36 @@ export default function ApplyPage() {
           {/* Form */}
           <div className="flex-1">
             {!submitted ? (
-              <form onSubmit={handleSubmit} noValidate>
+              <form ref={formRef} onSubmit={handleSubmit} noValidate>
+                <div className="sticky top-0 z-20 mb-8 rounded-lg border border-[#DDD8D0] bg-cream/95 p-4 shadow-sm backdrop-blur">
+                  <div className="mb-3 flex items-center justify-between gap-4">
+                    <div>
+                      <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-gold">Application Progress</div>
+                      <div className="text-xs text-muted-text">{completedRequiredFields} of {requiredFields.length} required items complete</div>
+                    </div>
+                    <div className="text-sm font-bold text-navy">{progressPercent}%</div>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-[#DDD8D0]">
+                    <div className="h-full rounded-full bg-gold transition-all duration-300" style={{ width: `${progressPercent}%` }} />
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    {formSections.map((section) => {
+                      const complete = section.fields.every((field) => isCompleteValue(formData[field]))
+                      return (
+                        <div
+                          key={section.label}
+                          className={`flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] font-semibold ${
+                            complete ? "bg-gold/15 text-navy" : "bg-white text-muted-text"
+                          }`}
+                        >
+                          {complete && <CheckCircle2 size={13} className="text-gold" />}
+                          {section.label}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
                 {/* Section 1 */}
                 <div className="mb-10">
                   <div className="text-[11px] font-bold tracking-[0.14em] uppercase text-gold mb-1.5">
@@ -231,8 +389,11 @@ export default function ApplyPage() {
                         value={formData.first_name}
                         onChange={handleChange}
                         required
-                        className={inputStyles}
+                        aria-invalid={Boolean(fieldErrors.first_name)}
+                        aria-describedby={fieldErrors.first_name ? "first_name-error" : undefined}
+                        className={getInputStyles("first_name")}
                       />
+                      <div id="first_name-error">{renderFieldError("first_name")}</div>
                     </div>
                     <div>
                       <label className="block text-[13px] font-semibold text-navy mb-1.5">
@@ -245,8 +406,11 @@ export default function ApplyPage() {
                         value={formData.last_name}
                         onChange={handleChange}
                         required
-                        className={inputStyles}
+                        aria-invalid={Boolean(fieldErrors.last_name)}
+                        aria-describedby={fieldErrors.last_name ? "last_name-error" : undefined}
+                        className={getInputStyles("last_name")}
                       />
+                      <div id="last_name-error">{renderFieldError("last_name")}</div>
                     </div>
                   </div>
 
@@ -261,8 +425,11 @@ export default function ApplyPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className={inputStyles}
+                      aria-invalid={Boolean(fieldErrors.email)}
+                      aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                      className={getInputStyles("email")}
                     />
+                    <div id="email-error">{renderFieldError("email")}</div>
                   </div>
 
                   <div className="mb-5">
@@ -276,8 +443,11 @@ export default function ApplyPage() {
                       value={formData.linkedin}
                       onChange={handleChange}
                       required
-                      className={inputStyles}
+                      aria-invalid={Boolean(fieldErrors.linkedin)}
+                      aria-describedby={fieldErrors.linkedin ? "linkedin-error" : undefined}
+                      className={getInputStyles("linkedin")}
                     />
+                    <div id="linkedin-error">{renderFieldError("linkedin")}</div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
@@ -292,8 +462,11 @@ export default function ApplyPage() {
                         value={formData.job_title}
                         onChange={handleChange}
                         required
-                        className={inputStyles}
+                        aria-invalid={Boolean(fieldErrors.job_title)}
+                        aria-describedby={fieldErrors.job_title ? "job_title-error" : undefined}
+                        className={getInputStyles("job_title")}
                       />
+                      <div id="job_title-error">{renderFieldError("job_title")}</div>
                     </div>
                     <div>
                       <label className="block text-[13px] font-semibold text-navy mb-1.5">
@@ -306,8 +479,11 @@ export default function ApplyPage() {
                         value={formData.company}
                         onChange={handleChange}
                         required
-                        className={inputStyles}
+                        aria-invalid={Boolean(fieldErrors.company)}
+                        aria-describedby={fieldErrors.company ? "company-error" : undefined}
+                        className={getInputStyles("company")}
                       />
+                      <div id="company-error">{renderFieldError("company")}</div>
                     </div>
                   </div>
 
@@ -320,7 +496,9 @@ export default function ApplyPage() {
                       value={formData.experience}
                       onChange={handleChange}
                       required
-                      className={selectStyles}
+                      aria-invalid={Boolean(fieldErrors.experience)}
+                      aria-describedby={fieldErrors.experience ? "experience-error" : undefined}
+                      className={getSelectStyles("experience")}
                     >
                       <option value="" disabled>
                         Select range
@@ -331,6 +509,7 @@ export default function ApplyPage() {
                         </option>
                       ))}
                     </select>
+                    <div id="experience-error">{renderFieldError("experience")}</div>
                   </div>
                 </div>
 
@@ -360,8 +539,11 @@ export default function ApplyPage() {
                       value={formData.idea_description}
                       onChange={handleChange}
                       required
-                      className={textareaStyles}
+                      aria-invalid={Boolean(fieldErrors.idea_description)}
+                      aria-describedby={fieldErrors.idea_description ? "idea_description-error" : undefined}
+                      className={getTextareaStyles("idea_description")}
                     />
+                    <div id="idea_description-error">{renderFieldError("idea_description")}</div>
                   </div>
 
                   <div className="mb-5">
@@ -373,7 +555,9 @@ export default function ApplyPage() {
                       value={formData.idea_age}
                       onChange={handleChange}
                       required
-                      className={selectStyles}
+                      aria-invalid={Boolean(fieldErrors.idea_age)}
+                      aria-describedby={fieldErrors.idea_age ? "idea_age-error" : undefined}
+                      className={getSelectStyles("idea_age")}
                     >
                       <option value="" disabled>
                         Select
@@ -384,6 +568,7 @@ export default function ApplyPage() {
                         </option>
                       ))}
                     </select>
+                    <div id="idea_age-error">{renderFieldError("idea_age")}</div>
                   </div>
 
                   <div className="mb-5">
@@ -397,8 +582,11 @@ export default function ApplyPage() {
                       value={formData.unfair_advantage}
                       onChange={handleChange}
                       required
-                      className={textareaStyles}
+                      aria-invalid={Boolean(fieldErrors.unfair_advantage)}
+                      aria-describedby={fieldErrors.unfair_advantage ? "unfair_advantage-error" : undefined}
+                      className={getTextareaStyles("unfair_advantage")}
                     />
+                    <div id="unfair_advantage-error">{renderFieldError("unfair_advantage")}</div>
                   </div>
 
                   <div className="mb-5">
@@ -410,11 +598,7 @@ export default function ApplyPage() {
                       {blockerOptions.map((opt) => (
                         <label
                           key={opt.value}
-                          className={`flex items-start gap-3 bg-white border-2 rounded-lg p-3.5 px-4 cursor-pointer transition-all duration-200 ${
-                            formData.blocker === opt.value
-                              ? "border-navy bg-navy/[0.02]"
-                              : "border-[#DDD8D0] hover:border-navy hover:bg-navy/[0.02]"
-                          }`}
+                          className={getChoiceStyles("blocker", formData.blocker === opt.value)}
                         >
                           <input
                             type="radio"
@@ -423,12 +607,14 @@ export default function ApplyPage() {
                             checked={formData.blocker === opt.value}
                             onChange={handleChange}
                             required
+                            aria-invalid={Boolean(fieldErrors.blocker)}
                             className="w-[18px] h-[18px] min-w-[18px] mt-0.5 accent-navy cursor-pointer"
                           />
                           <span className="text-sm text-navy leading-[1.4]">{opt.label}</span>
                         </label>
                       ))}
                     </div>
+                    {renderFieldError("blocker")}
                   </div>
                 </div>
 
@@ -455,8 +641,11 @@ export default function ApplyPage() {
                       value={formData.outcome}
                       onChange={handleChange}
                       required
-                      className={textareaStyles}
+                      aria-invalid={Boolean(fieldErrors.outcome)}
+                      aria-describedby={fieldErrors.outcome ? "outcome-error" : undefined}
+                      className={getTextareaStyles("outcome")}
                     />
+                    <div id="outcome-error">{renderFieldError("outcome")}</div>
                   </div>
 
                   <div className="mb-5">
@@ -468,7 +657,9 @@ export default function ApplyPage() {
                       value={formData.hours_per_week}
                       onChange={handleChange}
                       required
-                      className={selectStyles}
+                      aria-invalid={Boolean(fieldErrors.hours_per_week)}
+                      aria-describedby={fieldErrors.hours_per_week ? "hours_per_week-error" : undefined}
+                      className={getSelectStyles("hours_per_week")}
                     >
                       <option value="" disabled>
                         Select
@@ -479,6 +670,7 @@ export default function ApplyPage() {
                         </option>
                       ))}
                     </select>
+                    <div id="hours_per_week-error">{renderFieldError("hours_per_week")}</div>
                   </div>
 
                   <div className="mb-5">
@@ -489,11 +681,7 @@ export default function ApplyPage() {
                       {tierOptions.map((opt) => (
                         <label
                           key={opt.value}
-                          className={`flex items-start gap-3 bg-white border-2 rounded-lg p-3.5 px-4 cursor-pointer transition-all duration-200 ${
-                            formData.tier === opt.value
-                              ? "border-navy bg-navy/[0.02]"
-                              : "border-[#DDD8D0] hover:border-navy hover:bg-navy/[0.02]"
-                          }`}
+                          className={getChoiceStyles("tier", formData.tier === opt.value)}
                         >
                           <input
                             type="radio"
@@ -502,6 +690,7 @@ export default function ApplyPage() {
                             checked={formData.tier === opt.value}
                             onChange={handleChange}
                             required
+                            aria-invalid={Boolean(fieldErrors.tier)}
                             className="w-[18px] h-[18px] min-w-[18px] mt-0.5 accent-navy cursor-pointer"
                           />
                           <div>
@@ -516,6 +705,7 @@ export default function ApplyPage() {
                         </label>
                       ))}
                     </div>
+                    {renderFieldError("tier")}
                   </div>
 
                   <div className="mb-5">
@@ -528,7 +718,9 @@ export default function ApplyPage() {
                       value={formData.prior_experience}
                       onChange={handleChange}
                       required
-                      className={selectStyles}
+                      aria-invalid={Boolean(fieldErrors.prior_experience)}
+                      aria-describedby={fieldErrors.prior_experience ? "prior_experience-error" : undefined}
+                      className={getSelectStyles("prior_experience")}
                     >
                       <option value="" disabled>
                         Select
@@ -539,6 +731,7 @@ export default function ApplyPage() {
                         </option>
                       ))}
                     </select>
+                    <div id="prior_experience-error">{renderFieldError("prior_experience")}</div>
                   </div>
                 </div>
 
@@ -564,7 +757,7 @@ export default function ApplyPage() {
                       placeholder="Anything that gives us better context: constraints, timelines, cofounders, prior traction, relevant background..."
                       value={formData.anything_else}
                       onChange={handleChange}
-                      className={`${textareaStyles} min-h-[90px]`}
+                      className={`${getTextareaStyles("anything_else")} min-h-[90px]`}
                     />
                   </div>
 
@@ -577,7 +770,9 @@ export default function ApplyPage() {
                       value={formData.referral_source}
                       onChange={handleChange}
                       required
-                      className={selectStyles}
+                      aria-invalid={Boolean(fieldErrors.referral_source)}
+                      aria-describedby={fieldErrors.referral_source ? "referral_source-error" : undefined}
+                      className={getSelectStyles("referral_source")}
                     >
                       <option value="" disabled>
                         Select
@@ -588,6 +783,7 @@ export default function ApplyPage() {
                         </option>
                       ))}
                     </select>
+                    <div id="referral_source-error">{renderFieldError("referral_source")}</div>
                   </div>
                 </div>
 
@@ -609,7 +805,7 @@ export default function ApplyPage() {
                 <div className="mb-5">
                   <label
                     className={`flex items-start gap-3 bg-cream border-2 rounded-lg p-3.5 px-4 cursor-pointer transition-all duration-200 ${
-                      formData.commitment_confirmed ? "border-navy" : "border-[#DDD8D0]"
+                      formData.commitment_confirmed ? "border-navy" : fieldErrors.commitment_confirmed ? "border-error bg-error/5" : "border-[#DDD8D0]"
                     }`}
                   >
                     <input
@@ -618,12 +814,32 @@ export default function ApplyPage() {
                       checked={formData.commitment_confirmed}
                       onChange={handleChange}
                       required
+                      aria-invalid={Boolean(fieldErrors.commitment_confirmed)}
                       className="w-[18px] h-[18px] min-w-[18px] p-0 border-none accent-navy cursor-pointer"
                     />
                     <span className="text-sm text-navy leading-[1.4]">
                       I confirm the above commitments and am applying in good faith. <span className="text-gold">*</span>
                     </span>
                   </label>
+                  {renderFieldError("commitment_confirmed")}
+                </div>
+
+                <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  <div className="rounded-lg border border-[#DDD8D0] bg-white p-4 text-left">
+                    <Clock3 className="mb-2 text-gold" size={18} />
+                    <div className="text-xs font-bold uppercase tracking-[0.08em] text-navy">Review Timeline</div>
+                    <p className="mt-1 text-xs leading-[1.5] text-muted-text">Every application is reviewed within 3 business days.</p>
+                  </div>
+                  <div className="rounded-lg border border-[#DDD8D0] bg-white p-4 text-left">
+                    <ShieldCheck className="mb-2 text-gold" size={18} />
+                    <div className="text-xs font-bold uppercase tracking-[0.08em] text-navy">Private Review</div>
+                    <p className="mt-1 text-xs leading-[1.5] text-muted-text">Your answers stay with the Hobby admissions team.</p>
+                  </div>
+                  <div className="rounded-lg border border-[#DDD8D0] bg-white p-4 text-left">
+                    <UserCheck className="mb-2 text-gold" size={18} />
+                    <div className="text-xs font-bold uppercase tracking-[0.08em] text-navy">No Payment Today</div>
+                    <p className="mt-1 text-xs leading-[1.5] text-muted-text">If selected, fit is confirmed on a free discovery call.</p>
+                  </div>
                 </div>
 
                 <div className="text-center">
@@ -637,7 +853,10 @@ export default function ApplyPage() {
                     disabled={submitting}
                     className="w-full sm:w-auto bg-gold text-navy border-none text-base font-bold px-8 sm:px-14 py-[18px] rounded-[5px] cursor-pointer font-sans transition-all duration-200 tracking-[0.02em] hover:translate-y-[-2px] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                   >
-                    {submitting ? "Submitting..." : "Submit Application"}
+                    <span className="inline-flex items-center justify-center gap-2">
+                      {submitting ? "Submitting" : "Submit Application"}
+                      {submitting && <LoaderCircle className="animate-spin" size={18} />}
+                    </span>
                   </button>
                   <p className="text-xs text-muted-text mt-3">
                     You&apos;ll hear from us within 3 business days. If selected, we&apos;ll invite you to a free 30 minute

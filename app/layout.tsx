@@ -5,13 +5,15 @@ import './globals.css'
 
 const inter = Inter({ 
   subsets: ["latin"],
-  variable: '--font-inter'
+  variable: '--font-inter',
+  display: 'swap',
 })
 
 const playfair = Playfair_Display({ 
   subsets: ["latin"],
   variable: '--font-playfair',
-  style: ['normal', 'italic']
+  style: ['normal', 'italic'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {

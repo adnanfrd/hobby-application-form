@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { FaChevronDown } from 'react-icons/fa6'
+import { ChevronDown } from 'lucide-react'
 
 const faqs = [
   {
@@ -56,7 +56,7 @@ export function FaqSection() {
                 <h3 className="text-[16px] font-medium text-white leading-[1.5] flex-1">
                   {faq.q}
                 </h3>
-                <FaChevronDown
+                <ChevronDown
                   className={`text-gold flex-shrink-0 transition-transform duration-300 mt-1 ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}

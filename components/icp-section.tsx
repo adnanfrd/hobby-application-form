@@ -1,6 +1,6 @@
 'use client'
 
-import { FaCircleCheck, FaXmark } from 'react-icons/fa6'
+import { CheckCircle2, X } from 'lucide-react'
 
 const yesItems = [
   "5+ years in a corporate or professional role (FAANG, finance, consulting, law)",
@@ -43,7 +43,7 @@ export function ICPSection() {
                 key={index}
                 className="text-sm text-cream pl-[26px] relative leading-[1.5] before:absolute before:left-0 before:text-green before:font-bold"
               >
-                <FaCircleCheck className="absolute left-0 top-0.5 text-green" size={16} />
+                <CheckCircle2 className="absolute left-0 top-0.5 text-green" size={16} />
                 {item}
               </li>
             ))}
@@ -60,7 +60,7 @@ export function ICPSection() {
                 key={index}
                 className="text-sm text-cream pl-[26px] relative leading-[1.5] before:absolute before:left-0 before:text-red before:font-bold"
               >
-                <FaXmark className="absolute left-0 top-0.5 text-red" size={16} />
+                <X className="absolute left-0 top-0.5 text-red" size={16} />
                 {item}
               </li>
             ))}

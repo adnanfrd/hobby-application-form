@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { CheckCircle2, LoaderCircle } from 'lucide-react'
 import { invokeEdgeFunction } from '@/lib/supabase/functions'
 
 interface SurveyFormData {
@@ -14,7 +15,14 @@ interface SurveyFormData {
   additionalNotes: string
 }
 
+type SurveyErrors = Partial<Record<keyof SurveyFormData, string>>
+
+function isValidEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
 export function SurveyForm() {
+  const formRef = useRef<HTMLFormElement>(null)
   const [formData, setFormData] = useState<SurveyFormData>({
     email: '',
     name: '',
@@ -29,6 +37,7 @@ export function SurveyForm() {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<SurveyErrors>({})
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -36,10 +45,37 @@ export function SurveyForm() {
       ...prev,
       [name]: value,
     }))
+    setFieldErrors((prev) => ({ ...prev, [name]: undefined }))
+  }
+
+  const validateForm = () => {
+    const errors: SurveyErrors = {}
+    const email = formData.email.trim()
+
+    if (!email) errors.email = 'Email is required.'
+    else if (!isValidEmail(email)) errors.email = 'Enter a valid email address.'
+    if (!formData.name.trim()) errors.name = 'Name is required.'
+
+    return errors
+  }
+
+  const focusFirstError = (errors: SurveyErrors) => {
+    const firstField = Object.keys(errors)[0]
+    const element = formRef.current?.querySelector<HTMLElement>(`[name="${firstField}"]`)
+    element?.focus()
+    element?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    const errors = validateForm()
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors)
+      focusFirstError(errors)
+      return
+    }
+
     setLoading(true)
     setError(null)
 
@@ -47,6 +83,7 @@ export function SurveyForm() {
       await invokeEdgeFunction('submit-survey', formData)
 
       setSubmitted(true)
+      setFieldErrors({})
       setFormData({
         email: '',
         name: '',
@@ -67,6 +104,7 @@ export function SurveyForm() {
   if (submitted) {
     return (
       <div className="bg-card-dark rounded-lg border border-green/20 p-5 sm:p-8 text-center">
+        <CheckCircle2 className="mx-auto mb-3 text-green" size={34} />
         <h3 className="text-2xl font-bold text-green mb-2">Thank you!</h3>
         <p className="text-cream mb-4">We&apos;ve received your survey response and will review it shortly.</p>
         <button
@@ -80,7 +118,7 @@ export function SurveyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-card-dark rounded-lg border border-border-white p-5 sm:p-8 space-y-6">
+    <form ref={formRef} onSubmit={handleSubmit} noValidate className="bg-card-dark rounded-lg border border-border-white p-5 sm:p-8 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Email */}
         <div>
@@ -91,9 +129,14 @@ export function SurveyForm() {
             value={formData.email}
             onChange={handleChange}
             required
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? 'survey-email-error' : undefined}
             placeholder="your@email.com"
-            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-cream placeholder-muted-text focus:outline-none focus:border-gold transition"
+            className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-cream placeholder-muted-text focus:outline-none focus:border-gold transition ${
+              fieldErrors.email ? 'border-red/70 bg-red/10' : 'border-white/20'
+            }`}
           />
+          {fieldErrors.email && <p id="survey-email-error" className="mt-2 text-xs text-red">{fieldErrors.email}</p>}
         </div>
 
         {/* Name */}
@@ -105,9 +148,14 @@ export function SurveyForm() {
             value={formData.name}
             onChange={handleChange}
             required
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={fieldErrors.name ? 'survey-name-error' : undefined}
             placeholder="Your name"
-            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-cream placeholder-muted-text focus:outline-none focus:border-gold transition"
+            className={`w-full px-4 py-3 rounded-lg bg-white/5 border text-cream placeholder-muted-text focus:outline-none focus:border-gold transition ${
+              fieldErrors.name ? 'border-red/70 bg-red/10' : 'border-white/20'
+            }`}
           />
+          {fieldErrors.name && <p id="survey-name-error" className="mt-2 text-xs text-red">{fieldErrors.name}</p>}
         </div>
 
         {/* Company */}
@@ -206,14 +254,15 @@ export function SurveyForm() {
         />
       </div>
 
-      {error && <p className="text-red text-sm">{error}</p>}
+      {error && <p className="rounded-md border border-red/25 bg-red/10 px-4 py-3 text-sm text-red">{error}</p>}
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full px-6 py-3 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 disabled:opacity-50 transition"
+        className="inline-flex w-full items-center justify-center gap-2 px-6 py-3 bg-gold text-midnight font-semibold rounded-lg hover:bg-gold/90 disabled:cursor-not-allowed disabled:opacity-50 transition"
       >
         {loading ? 'Submitting...' : 'Submit Survey'}
+        {loading && <LoaderCircle className="animate-spin" size={17} />}
       </button>
     </form>
   )
