@@ -1,8 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const { email } = await request.json()
+  const { email, name } = await request.json()
 
   if (!email || !email.includes('@')) {
     return NextResponse.json(
@@ -11,28 +10,37 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const supabase = await createClient()
-
   try {
-    const { data, error } = await supabase
-      .from('newsletter_subscribers')
-      .insert([{ email }])
-      .select()
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-    if (error) {
-      if (error.code === '23505') {
-        return NextResponse.json(
-          { error: 'This email is already subscribed' },
-          { status: 409 }
-        )
-      }
-      throw error
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json(
+        { error: 'Supabase is not configured' },
+        { status: 500 }
+      )
     }
 
-    return NextResponse.json(
-      { message: 'Successfully subscribed to newsletter', data },
-      { status: 201 }
-    )
+    const functionResponse = await fetch(`${supabaseUrl}/functions/v1/send-newsletter-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+      },
+      body: JSON.stringify({ email, name }),
+    })
+
+    const data = await functionResponse.json().catch(() => null)
+
+    if (!functionResponse.ok) {
+      return NextResponse.json(
+        { error: data?.error || 'Failed to subscribe to newsletter' },
+        { status: functionResponse.status }
+      )
+    }
+
+    return NextResponse.json(data, { status: functionResponse.status })
   } catch (error) {
     console.error('Newsletter subscription error:', error)
     return NextResponse.json(
